@@ -5,1532 +5,1688 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BHR Custom Homes | Custom Home Builder & General Contractor</title>
   <meta name="description" content="BHR Custom Homes is a licensed general contractor specializing in custom home builds, luxury remodels, and additions. Built to a higher standard." />
-  <meta name="keywords" content="custom home builder, general contractor, luxury home remodel, home addition, BHR Custom Homes" />
   <meta property="og:title" content="BHR Custom Homes | Custom Home Builder & General Contractor" />
-  <meta property="og:description" content="Custom homes and luxury remodels built to a higher standard. BHR Custom Homes." />
+  <meta property="og:description" content="Custom homes and luxury remodels built to a higher standard." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bhrcustomhomes.com" />
   <link rel="canonical" href="https://brighthomerepair.com" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
-    /* ============================================================
-       RESET & BASE
-    ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:     #0c0b0a;
-      --gold:      #b89a45;
-      --gold-lt:   #d4b96a;
-      --gold-dk:   #8a7030;
-      --cream:     #f4efe6;
-      --cream-dk:  #e8e0d0;
-      --white:     #fdfaf5;
-      --gray:      #6b6560;
-      --gray-lt:   #9e9790;
+      --ink:      #0d0b09;
+      --ink-2:    #2a2520;
+      --gold:     #b89a45;
+      --gold-lt:  #cdb05e;
+      --parchment:#f4efe6;
+      --warm-white:#fdfaf5;
+      --mid:      #7a7268;
+      --faint:    rgba(13,11,9,0.08);
 
-      --ff-serif:  'Cormorant Garamond', Georgia, serif;
-      --ff-sans:   'Jost', sans-serif;
-
-      --max:       1320px;
-      --section-y: 120px;
+      --serif:  'Cormorant', Georgia, serif;
+      --sans:   'Syne', sans-serif;
+      --max:    1400px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; font-size: 16px; }
 
     body {
-      background: var(--white);
-      color: var(--black);
-      font-family: var(--ff-sans);
-      font-weight: 300;
-      line-height: 1.7;
+      background: var(--warm-white);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.6;
       overflow-x: hidden;
+      cursor: none;
     }
 
-    img { display: block; max-width: 100%; }
     a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
     ul { list-style: none; }
 
-    /* ============================================================
-       TYPOGRAPHY UTILS
-    ============================================================ */
-    .display {
-      font-family: var(--ff-serif);
-      font-weight: 300;
-      line-height: 1.08;
-      letter-spacing: -0.01em;
+    /* ======================================================
+       CURSOR
+    ====================================================== */
+    .cursor-dot {
+      position: fixed;
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease;
     }
-    .overline {
-      font-family: var(--ff-sans);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(184,154,69,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
     }
-    .gold { color: var(--gold); }
-    .serif { font-family: var(--ff-serif); }
-
-    /* ============================================================
-       LAYOUT
-    ============================================================ */
-    .container {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    /* ============================================================
-       ANIMATIONS
-    ============================================================ */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes lineGrow {
-      from { scaleX: 0; }
-      to   { scaleX: 1; }
+    .cursor-ring.expand {
+      width: 56px; height: 56px;
+      border-color: var(--gold);
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* ============================================================
+    /* ======================================================
        NAV
-    ============================================================ */
+    ====================================================== */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 1000;
+      z-index: 100;
       height: 72px;
-      overflow: visible;
-      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+      display: flex;
+      align-items: center;
+      transition: background 0.5s ease, border-color 0.5s ease;
+      border-bottom: 1px solid transparent;
     }
-    nav.scrolled {
-      background: rgba(12, 11, 10, 0.94);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(184, 154, 69, 0.2);
+    nav.dark {
+      background: rgba(13,11,9,0.96);
+      border-bottom-color: rgba(184,154,69,0.15);
+      backdrop-filter: blur(20px);
     }
     .nav-inner {
+      width: 100%;
       max-width: var(--max);
       margin: 0 auto;
-      padding: 0 40px;
-      height: 100%;
+      padding: 0 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      height: 100%;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      overflow: visible;
     }
     .nav-logo img {
       height: 100px;
       width: auto;
-      display: block;
     }
-
-    .nav-links {
+    .nav-right {
       display: flex;
-      gap: 40px;
       align-items: center;
+      gap: 48px;
     }
-    .nav-links a {
-      color: rgba(253, 250, 245, 0.75);
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 0.14em;
+    .nav-link {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
+      color: rgba(253,250,245,0.6);
       transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--gold); }
-
-    .nav-cta {
-      background: transparent;
-      border: 1px solid var(--gold);
-      color: var(--gold) !important;
-      padding: 10px 24px;
-      font-size: 11px !important;
-      letter-spacing: 0.2em !important;
-      transition: background 0.25s ease, color 0.25s ease !important;
-    }
-    .nav-cta:hover {
-      background: var(--gold) !important;
-      color: var(--black) !important;
-    }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .nav-hamburger span {
-      display: block;
-      width: 24px;
-      height: 1.5px;
-      background: var(--white);
-      transition: all 0.3s;
-    }
-
-    /* ============================================================
-       HERO
-    ============================================================ */
-    #hero {
       position: relative;
-      height: 100vh;
-      min-height: 700px;
-      display: flex;
-      align-items: flex-end;
-      overflow: hidden;
     }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom,
-          rgba(12,11,10,0.25) 0%,
-          rgba(12,11,10,0.1) 30%,
-          rgba(12,11,10,0.65) 70%,
-          rgba(12,11,10,0.92) 100%),
-        url('https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1800&q=80') center/cover no-repeat;
-    }
-
-    /* Subtle grain texture */
-    .hero-bg::after {
+    .nav-link::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.4;
-      pointer-events: none;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
     }
+    .nav-link:hover { color: var(--warm-white); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link.light { color: rgba(13,11,9,0.5); }
+    .nav-link.light:hover { color: var(--ink); }
+    .nav-cta-link {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: color 0.2s;
+    }
+    .nav-cta-link:hover { color: var(--gold-lt); }
 
-    .hero-content {
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--warm-white);
+      transition: all 0.3s;
+    }
+    .mob-nav {
+      position: fixed;
+      inset: 0;
+      background: var(--ink);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .mob-nav.open { transform: translateX(0); }
+    .mob-nav-close {
+      position: absolute;
+      top: 28px; right: 48px;
+      font-size: 28px;
+      color: var(--warm-white);
+      background: none;
+      border: none;
+      cursor: none;
+      line-height: 1;
+    }
+    .mob-nav a {
+      font-family: var(--serif);
+      font-size: clamp(36px, 7vw, 56px);
+      font-weight: 300;
+      color: rgba(253,250,245,0.7);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color 0.2s;
+    }
+    .mob-nav a:hover { color: var(--gold); }
+
+    /* ======================================================
+       HERO — SPLIT COMPOSITION
+    ====================================================== */
+    #hero {
+      height: 100svh;
+      min-height: 640px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 72px 80px;
       position: relative;
       z-index: 2;
-      padding: 0 40px 100px;
-      max-width: 820px;
-      animation: fadeUp 1.2s ease both;
     }
-
-    .hero-overline {
+    .hero-eyebrow {
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-bottom: 28px;
-      animation: fadeUp 1s ease 0.2s both;
+      margin-bottom: 32px;
     }
-    .hero-overline::before {
-      content: '';
-      display: block;
-      width: 40px;
+    .hero-eyebrow-line {
+      width: 32px;
       height: 1px;
       background: var(--gold);
     }
-
-    .hero-h1 {
-      font-size: clamp(54px, 7vw, 92px);
-      color: var(--white);
-      margin-bottom: 28px;
-      animation: fadeUp 1s ease 0.35s both;
-    }
-    .hero-h1 em {
-      font-style: italic;
-      color: var(--gold-lt);
-    }
-
-    .hero-sub {
-      font-size: 16px;
-      color: rgba(253,250,245,0.7);
-      max-width: 480px;
-      line-height: 1.75;
-      margin-bottom: 48px;
-      font-weight: 300;
-      animation: fadeUp 1s ease 0.5s both;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-      animation: fadeUp 1s ease 0.65s both;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--black);
-      padding: 16px 40px;
-      font-family: var(--ff-sans);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
+    .hero-eyebrow-text {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      transition: background 0.25s ease, transform 0.2s ease;
-    }
-    .btn-primary:hover {
-      background: var(--gold-lt);
-      transform: translateY(-1px);
-    }
-
-    .btn-ghost {
-      display: inline-block;
-      border: 1px solid rgba(253,250,245,0.35);
-      color: rgba(253,250,245,0.85);
-      padding: 16px 40px;
-      font-family: var(--ff-sans);
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      transition: border-color 0.25s, color 0.25s;
-    }
-    .btn-ghost:hover {
-      border-color: var(--gold);
       color: var(--gold);
     }
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(64px, 7.5vw, 110px);
+      font-weight: 300;
+      line-height: 0.92;
+      color: var(--warm-white);
+      margin-bottom: 48px;
+      letter-spacing: -0.01em;
+    }
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 300;
+    }
+    .hero-sub-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .hero-sub {
+      font-size: 14px;
+      color: rgba(253,250,245,0.45);
+      line-height: 1.75;
+      max-width: 280px;
+      font-weight: 400;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm-white);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: gap 0.3s ease;
+    }
+    .hero-cta:hover { gap: 24px; }
+    .hero-cta-arrow {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      position: relative;
+      transition: width 0.3s ease;
+    }
+    .hero-cta-arrow::after {
+      content: '';
+      position: absolute;
+      right: 0; top: -3px;
+      width: 7px; height: 7px;
+      border-right: 1px solid var(--gold);
+      border-bottom: 1px solid var(--gold);
+      transform: rotate(-45deg);
+    }
+    .hero-cta:hover .hero-cta-arrow { width: 64px; }
 
-    .hero-scroll {
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-right-img {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1200&q=85') center/cover no-repeat;
+      transform: scale(1.04);
+      transition: transform 6s ease;
+    }
+    .hero-right-img.loaded { transform: scale(1); }
+    .hero-right-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(13,11,9,0.3) 0%, transparent 40%);
+    }
+    .hero-counter {
       position: absolute;
       bottom: 40px;
       right: 40px;
-      z-index: 2;
+      text-align: right;
+    }
+    .hero-counter-num {
+      font-family: var(--serif);
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--warm-white);
+      line-height: 1;
+    }
+    .hero-counter-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(253,250,245,0.5);
+    }
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 72px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      animation: fadeIn 1.5s ease 1s both;
+      z-index: 3;
     }
-    .hero-scroll span {
-      font-size: 10px;
-      letter-spacing: 0.22em;
+    .hero-scroll-indicator span {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: rgba(253,250,245,0.45);
+      color: rgba(253,250,245,0.3);
       writing-mode: vertical-rl;
     }
-    .scroll-line {
+    .scroll-bar {
       width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.1); }
-    }
-
-    /* ============================================================
-       TRUST BAR
-    ============================================================ */
-    #trust {
-      background: var(--black);
-      padding: 36px 0;
-      border-top: 1px solid rgba(184,154,69,0.25);
-      border-bottom: 1px solid rgba(184,154,69,0.25);
-    }
-    .trust-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
-    .trust-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 20px 24px;
-      border-right: 1px solid rgba(184,154,69,0.15);
-    }
-    .trust-item:last-child { border-right: none; }
-    .trust-num {
-      font-family: var(--ff-serif);
-      font-size: 42px;
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .trust-label {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(253,250,245,0.5);
-    }
-
-    /* ============================================================
-       ABOUT / INTRO
-    ============================================================ */
-    #about {
-      padding: var(--section-y) 0;
-    }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 100px;
-      align-items: center;
-    }
-    .about-mascot-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      position: relative;
-    }
-    .about-mascot-wrap img {
-      width: 100%;
-      max-width: 480px;
-      object-fit: contain;
-      filter: drop-shadow(0 24px 48px rgba(12,11,10,0.18));
-    }
-
-    .about-text { padding-bottom: 40px; }
-    .about-text .overline { margin-bottom: 16px; }
-    .about-text h2 {
-      font-size: clamp(38px, 4vw, 58px);
-      margin-bottom: 28px;
-    }
-    .about-text p {
-      font-size: 16px;
-      color: var(--gray);
-      line-height: 1.85;
-      margin-bottom: 20px;
-    }
-    .about-sig {
-      font-family: var(--ff-serif);
-      font-size: 32px;
-      font-style: italic;
-      color: var(--black);
-      margin-top: 32px;
-      margin-bottom: 4px;
-    }
-    .about-sig-role {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--gray-lt);
-    }
-
-    /* ============================================================
-       SERVICES
-    ============================================================ */
-    #services {
-      background: var(--black);
-      padding: var(--section-y) 0;
+      height: 64px;
+      background: rgba(255,255,255,0.1);
       position: relative;
       overflow: hidden;
     }
-    #services::before {
-      content: 'BHR';
+    .scroll-bar::after {
+      content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: var(--ff-serif);
-      font-size: 320px;
-      font-weight: 700;
-      color: rgba(184,154,69,0.04);
-      pointer-events: none;
-      white-space: nowrap;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gold);
+      animation: scrollBar 2s ease-in-out infinite;
+    }
+    @keyframes scrollBar {
+      0% { top: -100%; }
+      100% { top: 100%; }
     }
 
-    .services-header {
+    /* ======================================================
+       STATEMENT — FULL WIDTH EDITORIAL
+    ====================================================== */
+    #statement {
+      padding: 160px 0;
+      border-bottom: 1px solid var(--faint);
+    }
+    .statement-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 80px;
+      align-items: end;
+    }
+    .statement-text {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 58px);
+      font-weight: 300;
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .statement-text em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .statement-aside {
+      padding-bottom: 8px;
+    }
+    .statement-aside p {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+    .link-underline {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .link-underline:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    /* ======================================================
+       SERVICES — STACKED ROWS
+    ====================================================== */
+    #services {
+      background: var(--ink);
+      padding: 0;
+      overflow: hidden;
+    }
+    .services-top {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 100px 48px 72px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 72px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .services-header-left .overline { margin-bottom: 16px; }
-    .services-header-left h2 {
-      font-size: clamp(38px, 4vw, 56px);
-      color: var(--white);
+    .services-top h2 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 5vw, 78px);
+      font-weight: 300;
+      color: var(--warm-white);
+      line-height: 1;
     }
-    .services-header-right {
-      max-width: 340px;
-      font-size: 15px;
-      color: rgba(253,250,245,0.5);
+    .services-top h2 em { font-style: italic; color: var(--gold); }
+    .services-top-right {
+      font-size: 13px;
+      color: rgba(253,250,245,0.35);
+      max-width: 300px;
       line-height: 1.75;
       text-align: right;
     }
 
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-    }
-    .service-card {
+    .service-row {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
       position: relative;
       overflow: hidden;
-      aspect-ratio: 4/3;
-      cursor: default;
+      cursor: none;
     }
-    .service-card-bg {
+    .service-row-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 80px 1fr 1fr 120px;
+      align-items: center;
+      gap: 48px;
+      height: 120px;
+      transition: height 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+      position: relative;
+      z-index: 2;
+    }
+    .service-num {
+      font-family: var(--serif);
+      font-size: 13px;
+      color: rgba(184,154,69,0.5);
+      letter-spacing: 0.2em;
+      font-weight: 400;
+    }
+    .service-name {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 300;
+      color: var(--warm-white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.3s;
+    }
+    .service-desc {
+      font-size: 14px;
+      color: rgba(253,250,245,0.0);
+      line-height: 1.7;
+      transition: color 0.4s ease;
+      max-width: 420px;
+    }
+    .service-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(253,250,245,0.25);
+      text-align: right;
+      transition: color 0.3s;
+    }
+    .service-bg {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
-      transition: transform 0.7s ease, filter 0.7s ease;
-      filter: grayscale(40%) brightness(0.55);
-    }
-    .service-card:hover .service-card-bg {
-      transform: scale(1.05);
-      filter: grayscale(10%) brightness(0.45);
-    }
-    .service-card-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(12,11,10,0.3) 0%, rgba(12,11,10,0.7) 100%);
-      transition: background 0.4s ease;
-    }
-    .service-card-content {
-      position: absolute;
-      inset: 0;
-      padding: 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    .service-num {
-      font-family: var(--ff-serif);
-      font-size: 13px;
-      color: var(--gold);
-      letter-spacing: 0.2em;
-      margin-bottom: 16px;
-    }
-    .service-title {
-      font-family: var(--ff-serif);
-      font-size: clamp(28px, 2.5vw, 38px);
-      font-weight: 300;
-      color: var(--white);
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-    .service-desc {
-      font-size: 14px;
-      color: rgba(253,250,245,0.65);
-      line-height: 1.7;
-      max-width: 360px;
       opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition: opacity 0.5s ease;
     }
-    .service-card:hover .service-desc {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .service-line {
-      width: 0;
-      height: 1px;
-      background: var(--gold);
-      transition: width 0.5s ease;
-      margin-bottom: 16px;
-    }
-    .service-card:hover .service-line { width: 40px; }
-
-    /* ============================================================
-       PROCESS
-    ============================================================ */
-    #process {
-      padding: var(--section-y) 0;
-      background: var(--cream);
-    }
-    .process-header {
-      text-align: center;
-      margin-bottom: 80px;
-    }
-    .process-header .overline { margin-bottom: 16px; }
-    .process-header h2 { font-size: clamp(38px, 4vw, 56px); }
-
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      position: relative;
-    }
-    .process-steps::before {
-      content: '';
+    .service-bg-overlay {
       position: absolute;
-      top: 36px;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold-dk), var(--gold), var(--gold-dk), transparent);
+      inset: 0;
+      background: rgba(13,11,9,0.82);
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
+    .service-row:hover .service-bg,
+    .service-row:hover .service-bg-overlay { opacity: 1; }
+    .service-row:hover .service-name { color: var(--gold); }
+    .service-row:hover .service-desc { color: rgba(253,250,245,0.55); }
+    .service-row:hover .service-tag { color: var(--gold); }
+    .service-row:hover .service-row-inner { height: 160px; }
 
-    .process-step {
-      padding: 0 24px;
-      text-align: center;
-    }
-    .step-circle {
-      width: 72px;
-      height: 72px;
-      border: 1px solid var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 32px;
-      background: var(--cream);
-      position: relative;
-      z-index: 1;
-    }
-    .step-num {
-      font-family: var(--ff-serif);
-      font-size: 26px;
-      font-weight: 300;
-      color: var(--gold);
-    }
-    .step-title {
-      font-family: var(--ff-serif);
-      font-size: 22px;
-      font-weight: 400;
-      margin-bottom: 12px;
-    }
-    .step-desc {
-      font-size: 14px;
-      color: var(--gray);
-      line-height: 1.7;
-    }
-
-    /* ============================================================
-       PROJECTS GALLERY
-    ============================================================ */
+    /* ======================================================
+       PROJECTS — EDITORIAL LAYOUT
+    ====================================================== */
     #projects {
-      padding: var(--section-y) 0;
-      background: var(--white);
+      padding: 160px 0;
     }
     .projects-header {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 48px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 64px;
+      align-items: baseline;
+      margin-bottom: 80px;
     }
-    .projects-header .overline { margin-bottom: 12px; }
-    .projects-header h2 { font-size: clamp(38px, 4vw, 56px); }
-    .projects-header-right {
-      font-size: 13px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border-bottom: 1px solid var(--gold);
-      padding-bottom: 4px;
-      cursor: pointer;
-      transition: color 0.2s;
+    .projects-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 5vw, 72px);
+      font-weight: 300;
+      line-height: 1;
+    }
+    .projects-header h2 em { font-style: italic; }
+    .projects-count {
+      font-family: var(--serif);
+      font-size: 80px;
+      font-weight: 300;
+      color: var(--faint);
+      line-height: 1;
     }
 
-    .gallery-grid {
+    .project-feature {
+      max-width: var(--max);
+      margin: 0 auto 6px;
+      padding: 0 48px;
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: auto;
-      gap: 4px;
+      gap: 6px;
     }
-    .gallery-item {
-      overflow: hidden;
-      position: relative;
-    }
-    .gallery-item:nth-child(1) { grid-column: 1 / 8; grid-row: 1; aspect-ratio: 4/3; }
-    .gallery-item:nth-child(2) { grid-column: 8 / 13; grid-row: 1; aspect-ratio: 3/4; }
-    .gallery-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; aspect-ratio: 1; }
-    .gallery-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; aspect-ratio: 1; }
-    .gallery-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; aspect-ratio: 1; }
+    .pf-1 { grid-template-columns: 7fr 3fr; }
+    .pf-2 { grid-template-columns: 3fr 7fr; }
+    .pf-3 { grid-template-columns: 1fr; max-width: 100%; padding: 0; }
 
-    .gallery-item img {
+    .project-img {
+      position: relative;
+      overflow: hidden;
+    }
+    .project-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.7s ease;
-      filter: grayscale(20%);
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .gallery-item:hover img {
-      transform: scale(1.04);
-      filter: grayscale(0%);
-    }
-    .gallery-overlay {
+    .project-img:hover img { transform: scale(1.04); }
+
+    .pf-1 .project-img:first-child { aspect-ratio: 4/3; }
+    .pf-1 .project-img:last-child { aspect-ratio: auto; }
+    .pf-2 .project-img:first-child { aspect-ratio: auto; }
+    .pf-2 .project-img:last-child { aspect-ratio: 4/3; }
+    .pf-3 .project-img { aspect-ratio: 21/8; }
+
+    .project-meta {
       position: absolute;
-      inset: 0;
-      background: rgba(12,11,10,0);
+      bottom: 0; left: 0; right: 0;
+      padding: 28px 32px;
+      background: linear-gradient(to top, rgba(13,11,9,0.85) 0%, transparent 100%);
       display: flex;
+      justify-content: space-between;
       align-items: flex-end;
-      padding: 28px;
-      transition: background 0.4s ease;
-    }
-    .gallery-item:hover .gallery-overlay {
-      background: rgba(12,11,10,0.4);
-    }
-    .gallery-label {
-      font-family: var(--ff-serif);
-      font-size: 18px;
-      color: var(--white);
       opacity: 0;
       transform: translateY(8px);
-      transition: opacity 0.3s, transform 0.3s;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
-    .gallery-item:hover .gallery-label {
+    .project-img:hover .project-meta {
       opacity: 1;
       transform: translateY(0);
     }
-
-    /* ============================================================
-       TESTIMONIALS
-    ============================================================ */
-    #testimonials {
-      background: var(--black);
-      padding: var(--section-y) 0;
+    .project-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--warm-white);
     }
-    .testimonials-header {
-      text-align: center;
-      margin-bottom: 72px;
-    }
-    .testimonials-header .overline { margin-bottom: 16px; }
-    .testimonials-header h2 { font-size: clamp(36px, 4vw, 52px); color: var(--white); }
-
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
-    .testimonial-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(184,154,69,0.12);
-      padding: 48px 40px;
-      position: relative;
-      transition: border-color 0.3s;
-    }
-    .testimonial-card:hover {
-      border-color: rgba(184,154,69,0.35);
-    }
-    .testimonial-quote {
-      font-family: var(--ff-serif);
-      font-size: 64px;
-      line-height: 0.5;
+    .project-type {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       color: var(--gold);
-      opacity: 0.4;
-      margin-bottom: 24px;
     }
-    .testimonial-text {
-      font-family: var(--ff-serif);
-      font-size: 19px;
+
+    /* ======================================================
+       ABOUT — MASCOT + EDITORIAL
+    ====================================================== */
+    #about {
+      background: var(--parchment);
+      padding: 0;
+      overflow: hidden;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 720px;
+    }
+    .about-img-col {
+      position: relative;
+      background: var(--ink-2);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .about-img-col img {
+      width: 88%;
+      max-width: 460px;
+      object-fit: contain;
+      display: block;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 -20px 60px rgba(13,11,9,0.4));
+    }
+    .about-text-col {
+      padding: 100px 80px 100px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .about-headline {
+      font-family: var(--serif);
+      font-size: clamp(38px, 4vw, 60px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 36px;
+      letter-spacing: -0.01em;
+    }
+    .about-headline em { font-style: italic; }
+    .about-body {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+    .about-stats {
+      display: flex;
+      gap: 48px;
+      margin: 48px 0;
+      padding-top: 48px;
+      border-top: 1px solid var(--faint);
+    }
+    .about-stat-num {
+      font-family: var(--serif);
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .about-stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 6px;
+    }
+    .about-sig {
+      font-family: var(--serif);
+      font-size: 36px;
       font-style: italic;
       font-weight: 300;
-      color: rgba(253,250,245,0.85);
-      line-height: 1.65;
+      color: var(--ink);
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--faint);
+    }
+    .about-sig-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: 6px;
+    }
+
+    /* ======================================================
+       PROCESS — VERTICAL LIST
+    ====================================================== */
+    #process {
+      padding: 160px 0;
+    }
+    .process-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 120px;
+      align-items: start;
+    }
+    .process-left h2 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 5vw, 72px);
+      font-weight: 300;
+      line-height: 1.05;
       margin-bottom: 32px;
+    }
+    .process-left h2 em { font-style: italic; }
+    .process-left p {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.8;
+      max-width: 380px;
+    }
+    .process-steps { display: flex; flex-direction: column; }
+    .process-step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 32px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--faint);
+      cursor: none;
+    }
+    .process-step:first-child { border-top: 1px solid var(--faint); }
+    .process-step-num {
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 300;
+      color: rgba(13,11,9,0.1);
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .process-step:hover .process-step-num { color: var(--gold); }
+    .process-step-content {}
+    .process-step-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+    }
+    .process-step:hover .process-step-title { color: var(--gold); }
+    .process-step-desc {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+
+    /* ======================================================
+       TESTIMONIAL — SINGLE PULL QUOTE
+    ====================================================== */
+    #testimonial {
+      background: var(--ink);
+      padding: 160px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    #testimonial::before {
+      content: '\201C';
+      position: absolute;
+      top: -60px;
+      left: 48px;
+      font-family: var(--serif);
+      font-size: 400px;
+      font-weight: 300;
+      color: rgba(184,154,69,0.06);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .testimonial-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 48px;
+      position: relative;
+      z-index: 2;
+    }
+    .testimonial-quote {
+      font-family: var(--serif);
+      font-size: clamp(26px, 3.5vw, 44px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--warm-white);
+      line-height: 1.4;
+      margin-bottom: 56px;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+    .testimonial-quote.fade { opacity: 0; }
+    .testimonial-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .testimonial-author {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .testimonial-name {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm-white);
     }
     .testimonial-stars {
       display: flex;
       gap: 4px;
-      margin-bottom: 20px;
     }
-    .star { color: var(--gold); font-size: 13px; }
-    .testimonial-author {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(253,250,245,0.55);
-    }
-
-    /* ============================================================
-       CTA BAND
-    ============================================================ */
-    #cta {
-      position: relative;
-      padding: 140px 0;
-      overflow: hidden;
-    }
-    .cta-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(rgba(12,11,10,0.78), rgba(12,11,10,0.78)),
-        url('https://images.unsplash.com/photo-1600607686527-6fb886090705?w=1600&q=80') center/cover no-repeat;
-    }
-    .cta-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-    }
-    .cta-content .overline { margin-bottom: 20px; }
-    .cta-content h2 {
-      font-size: clamp(42px, 5vw, 72px);
-      color: var(--white);
-      margin-bottom: 20px;
-    }
-    .cta-content p {
-      font-size: 17px;
-      color: rgba(253,250,245,0.6);
-      max-width: 480px;
-      margin: 0 auto 48px;
-      line-height: 1.75;
-    }
-    .cta-divider {
-      width: 1px;
-      height: 48px;
-      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-      margin: 0 auto 48px;
-    }
-
-    /* ============================================================
-       CONTACT
-    ============================================================ */
-    #contact {
-      padding: var(--section-y) 0;
-      background: var(--cream);
-    }
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 100px;
-      align-items: start;
-    }
-    .contact-info .overline { margin-bottom: 16px; }
-    .contact-info h2 {
-      font-size: clamp(36px, 3.5vw, 52px);
-      margin-bottom: 24px;
-    }
-    .contact-info p {
-      font-size: 16px;
-      color: var(--gray);
-      line-height: 1.8;
-      margin-bottom: 40px;
-    }
-    .contact-details { display: flex; flex-direction: column; gap: 20px; }
-    .contact-detail {
+    .star { color: var(--gold); font-size: 12px; }
+    .testimonial-nav {
       display: flex;
-      align-items: flex-start;
       gap: 16px;
     }
-    .contact-detail-icon {
-      width: 40px;
-      height: 40px;
-      border: 1px solid rgba(184,154,69,0.35);
+    .t-btn {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      color: var(--gold);
-      font-size: 16px;
+      cursor: none;
+      transition: border-color 0.2s, color 0.2s;
     }
-    .contact-detail-text {
-      font-size: 14px;
-      color: var(--gray);
-      line-height: 1.6;
-    }
-    .contact-detail-label {
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+    .t-btn:hover {
+      border-color: var(--gold);
       color: var(--gold);
-      margin-bottom: 4px;
     }
 
-    /* FORM */
-    .contact-form { display: flex; flex-direction: column; gap: 20px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .form-group { display: flex; flex-direction: column; gap: 8px; }
-    .form-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gray);
+    /* ======================================================
+       CONTACT
+    ====================================================== */
+    #contact {
+      padding: 160px 0;
+      background: var(--warm-white);
     }
-    .form-input, .form-select, .form-textarea {
-      background: var(--white);
-      border: 1px solid rgba(12,11,10,0.15);
-      padding: 14px 18px;
-      font-family: var(--ff-sans);
-      font-size: 14px;
+    .contact-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 120px;
+      align-items: start;
+    }
+    .contact-left {}
+    .contact-left h2 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 5vw, 80px);
       font-weight: 300;
-      color: var(--black);
+      line-height: 0.95;
+      margin-bottom: 40px;
+    }
+    .contact-left h2 em { font-style: italic; }
+    .contact-left p {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.8;
+      margin-bottom: 56px;
+      max-width: 400px;
+    }
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .contact-item {}
+    .contact-item-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .contact-item-val {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .field {
+      position: relative;
+      border-bottom: 1px solid var(--faint);
+    }
+    .field label {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mid);
+      pointer-events: none;
+      transition: top 0.2s, font-size 0.2s, color 0.2s;
+    }
+    .field input:focus ~ label,
+    .field input:not(:placeholder-shown) ~ label,
+    .field textarea:focus ~ label,
+    .field textarea:not(:placeholder-shown) ~ label,
+    .field select:focus ~ label,
+    .field select:valid ~ label {
+      top: 4px;
+      font-size: 8.5px;
+      color: var(--gold);
+    }
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      background: none;
+      border: none;
       outline: none;
-      transition: border-color 0.2s;
+      padding: 28px 0 14px;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--ink);
       appearance: none;
       -webkit-appearance: none;
     }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--gold);
+    .field input::placeholder,
+    .field textarea::placeholder { color: transparent; }
+    .field textarea { resize: none; min-height: 100px; }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 32px;
     }
-    .form-textarea { resize: vertical; min-height: 130px; }
-    .form-submit {
-      background: var(--black);
-      color: var(--white);
-      padding: 18px 40px;
-      font-family: var(--ff-sans);
+    .form-submit-row {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 48px;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      font-family: var(--sans);
       font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.22em;
+      font-weight: 700;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
+      color: var(--ink);
+      background: none;
       border: none;
-      cursor: pointer;
-      transition: background 0.25s ease;
-      align-self: flex-start;
+      cursor: none;
+      transition: gap 0.3s;
     }
-    .form-submit:hover { background: var(--gold); color: var(--black); }
+    .btn-submit:hover { gap: 30px; }
+    .submit-line {
+      width: 56px;
+      height: 1px;
+      background: var(--ink);
+      position: relative;
+      transition: width 0.3s;
+    }
+    .submit-line::after {
+      content: '';
+      position: absolute;
+      right: 0; top: -3px;
+      width: 7px; height: 7px;
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      transform: rotate(-45deg);
+    }
+    .btn-submit:hover .submit-line { width: 80px; }
     .form-success {
       display: none;
-      background: rgba(184,154,69,0.1);
-      border: 1px solid var(--gold);
-      padding: 20px;
-      font-size: 14px;
-      color: var(--gold-dk);
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--gold);
+      margin-top: 32px;
+      font-style: italic;
     }
 
-    /* ============================================================
+    /* ======================================================
        FOOTER
-    ============================================================ */
+    ====================================================== */
     footer {
-      background: var(--black);
-      padding: 80px 0 40px;
+      background: var(--ink);
+      padding: 72px 0 40px;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 48px;
     }
     .footer-top {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 60px;
-      padding-bottom: 60px;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 48px;
+      padding-bottom: 48px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 32px;
     }
     .footer-logo img {
       width: 100%;
-      max-width: 260px;
+      max-width: 220px;
       height: auto;
-      display: block;
-      margin-bottom: 20px;
     }
-    .footer-brand-desc {
-      font-size: 14px;
-      color: rgba(255,255,255,0.35);
-      line-height: 1.75;
-      max-width: 280px;
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
-    .footer-col h4 {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.22em;
+    .footer-links a {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 24px;
-    }
-    .footer-col ul { display: flex; flex-direction: column; gap: 12px; }
-    .footer-col ul li a {
-      font-size: 14px;
-      color: rgba(255,255,255,0.4);
+      color: rgba(253,250,245,0.3);
       transition: color 0.2s;
     }
-    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-right {
+      text-align: right;
+    }
+    .footer-right-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(253,250,245,0.2);
+      margin-bottom: 12px;
+    }
+    .footer-socials {
+      display: flex;
+      justify-content: flex-end;
+      gap: 24px;
+    }
+    .footer-socials a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(253,250,245,0.35);
+      transition: color 0.2s;
+    }
+    .footer-socials a:hover { color: var(--gold); }
     .footer-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 32px;
     }
     .footer-copy {
       font-size: 12px;
-      color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.18);
     }
-    .footer-socials { display: flex; gap: 20px; }
-    .footer-socials a {
+    .footer-legal {
       font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      transition: color 0.2s;
-    }
-    .footer-socials a:hover { color: var(--gold); }
-
-    /* ============================================================
-       MOBILE NAV OVERLAY
-    ============================================================ */
-    .mobile-menu {
-      position: fixed;
-      inset: 0;
-      background: var(--black);
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      transform: translateX(100%);
-      transition: transform 0.4s ease;
-    }
-    .mobile-menu.open { transform: translateX(0); }
-    .mobile-menu a {
-      font-family: var(--ff-serif);
-      font-size: 40px;
-      font-weight: 300;
-      color: rgba(253,250,245,0.75);
-      letter-spacing: 0.04em;
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--gold); }
-    .mobile-close {
-      position: absolute;
-      top: 28px; right: 40px;
-      font-size: 28px;
-      color: var(--white);
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
+      color: rgba(255,255,255,0.18);
     }
 
-    /* ============================================================
+    /* ======================================================
+       ANIMATIONS & SCROLL REVEAL
+    ====================================================== */
+    .sr {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .sr.in { opacity: 1; transform: translateY(0); }
+    .sr-d1 { transition-delay: 0.1s; }
+    .sr-d2 { transition-delay: 0.2s; }
+    .sr-d3 { transition-delay: 0.3s; }
+    .sr-d4 { transition-delay: 0.4s; }
+
+    /* ======================================================
        RESPONSIVE
-    ============================================================ */
-    @media (max-width: 1100px) {
-      .about-img-accent { display: none; }
-      .about-grid { gap: 60px; }
-      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
-    }
-
-    @media (max-width: 900px) {
-      :root { --section-y: 80px; }
-      .container { padding: 0 24px; }
+    ====================================================== */
+    @media (max-width: 1024px) {
+      :root { --max: 100%; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 120px 36px 80px; }
+      .statement-inner { grid-template-columns: 1fr; gap: 40px; }
+      .statement-aside { max-width: 480px; }
       .about-grid { grid-template-columns: 1fr; }
-      .about-mascot-wrap { display: none; }
-      .services-grid { grid-template-columns: 1fr; }
-      .service-card { aspect-ratio: 16/9; }
-      .services-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-      .services-header-right { text-align: left; }
-      .process-steps { grid-template-columns: 1fr 1fr; gap: 48px; }
-      .process-steps::before { display: none; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-item { grid-column: auto !important; grid-row: auto !important; aspect-ratio: 4/3 !important; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
-      .form-row { grid-template-columns: 1fr; }
-      .trust-grid { grid-template-columns: repeat(2, 1fr); }
-      .trust-item:nth-child(2) { border-right: none; }
-      .trust-item:nth-child(3) { border-top: 1px solid rgba(184,154,69,0.15); }
-      .trust-item:nth-child(4) { border-top: 1px solid rgba(184,154,69,0.15); border-right: none; }
-      .footer-top { grid-template-columns: 1fr; gap: 36px; }
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
+      .about-img-col { min-height: 480px; }
+      .about-text-col { padding: 72px 36px; }
+      .process-inner { grid-template-columns: 1fr; gap: 64px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 72px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-links { display: none; }
     }
 
-    @media (max-width: 600px) {
-      .hero-content { padding: 0 24px 80px; }
-      .hero-scroll { display: none; }
-      .process-steps { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    @media (max-width: 768px) {
+      body { cursor: auto; }
+      .cursor-dot, .cursor-ring { display: none; }
+      .hamburger { display: flex; }
+      .nav-right { display: none; }
+      .nav-inner { padding: 0 24px; }
+      .hero-left { padding: 100px 24px 64px; }
+      #statement, #projects, #process, #testimonial, #contact { padding: 100px 0; }
+      .projects-header, .process-inner, .testimonial-inner, .contact-inner,
+      .statement-inner, .services-top { padding: 0 24px; }
+      .project-feature { padding: 0 24px; }
+      .pf-1, .pf-2 { grid-template-columns: 1fr; }
+      .pf-1 .project-img:first-child,
+      .pf-2 .project-img:last-child { aspect-ratio: 4/3; }
+      .pf-1 .project-img:last-child,
+      .pf-2 .project-img:first-child { display: none; }
+      .pf-3 .project-img { aspect-ratio: 4/3; }
+      .service-row-inner { padding: 0 24px; grid-template-columns: 48px 1fr; height: 80px; }
+      .service-desc, .service-tag { display: none; }
+      .service-row:hover .service-row-inner { height: 80px; }
+      .about-img-col { min-height: 360px; }
+      .footer-inner { padding: 0 24px; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-right { text-align: left; }
+      .footer-socials { justify-content: flex-start; }
+      .field-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- ============================================================
-     MOBILE MENU
-============================================================ -->
-<div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" id="mobileClose">&times;</button>
-  <a href="#about" onclick="closeMobile()">About</a>
-  <a href="#services" onclick="closeMobile()">Services</a>
-  <a href="#projects" onclick="closeMobile()">Projects</a>
-  <a href="#process" onclick="closeMobile()">Process</a>
-  <a href="#contact" onclick="closeMobile()">Contact</a>
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <button class="mob-nav-close" onclick="closeMob()">&times;</button>
+  <a href="#statement" onclick="closeMob()">About</a>
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#projects" onclick="closeMob()">Projects</a>
+  <a href="#process" onclick="closeMob()">Process</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
 </div>
 
-<!-- ============================================================
-     NAV
-============================================================ -->
-<nav id="mainNav">
+<!-- NAV -->
+<nav id="nav">
   <div class="nav-inner">
-    <a href="#hero" class="nav-logo"><img src="logo.png" alt="BHR Custom Homes" /></a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#contact" class="nav-cta">Start a Project</a></li>
-    </ul>
-    <div class="nav-hamburger" id="hamburger" onclick="openMobile()">
+    <a href="#hero" class="nav-logo">
+      <img src="logo.png" alt="BHR Custom Homes" />
+    </a>
+    <div class="nav-right">
+      <a href="#statement" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#process" class="nav-link">Process</a>
+      <a href="#contact" class="nav-cta-link">Start a Project &rarr;</a>
+    </div>
+    <div class="hamburger" onclick="openMob()">
       <span></span><span></span><span></span>
     </div>
   </div>
 </nav>
 
-<!-- ============================================================
-     HERO
-============================================================ -->
+<!-- HERO -->
 <section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-overline">
-      <span class="overline">Licensed General Contractor</span>
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-text">Licensed General Contractor</span>
     </div>
-    <h1 class="display hero-h1">
-      Built to a<br><em>Higher Standard</em>
+    <h1 class="hero-headline">
+      Built<br>to a<br><em>Higher</em><br>Standard.
     </h1>
-    <p class="hero-sub">Custom home builds, luxury remodels, and additions crafted with precision. BHR Custom Homes brings your vision to life without compromise.</p>
-    <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Start Your Project</a>
-      <a href="#projects" class="btn-ghost">View Our Work</a>
+    <div class="hero-sub-row">
+      <p class="hero-sub">Custom home builds, luxury remodels, and additions crafted without compromise.</p>
+      <a href="#contact" class="hero-cta">
+        Start a Project
+        <span class="hero-cta-arrow"></span>
+      </a>
     </div>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
+  <div class="hero-right">
+    <div class="hero-right-img" id="heroBg"></div>
+    <div class="hero-right-overlay"></div>
+    <div class="hero-counter">
+      <div class="hero-counter-num">20+</div>
+      <div class="hero-counter-label">Years Building</div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-bar"></div>
     <span>Scroll</span>
   </div>
 </section>
 
-<!-- ============================================================
-     TRUST BAR
-============================================================ -->
-<section id="trust">
-  <div class="container">
-    <div class="trust-grid">
-      <div class="trust-item reveal">
-        <div class="trust-num">20<span style="font-size:24px">+</span></div>
-        <div class="trust-label">Years of Experience</div>
-      </div>
-      <div class="trust-item reveal reveal-delay-1">
-        <div class="trust-num">200<span style="font-size:24px">+</span></div>
-        <div class="trust-label">Projects Completed</div>
-      </div>
-      <div class="trust-item reveal reveal-delay-2">
-        <div class="trust-num">100<span style="font-size:24px">%</span></div>
-        <div class="trust-label">Licensed &amp; Insured</div>
-      </div>
-      <div class="trust-item reveal reveal-delay-3">
-        <div class="trust-num">5<span style="font-size:24px">★</span></div>
-        <div class="trust-label">Client Satisfaction</div>
-      </div>
+<!-- STATEMENT -->
+<section id="statement">
+  <div class="statement-inner">
+    <p class="statement-text sr">
+      We don't build houses.<br>
+      We build the homes our clients<br>
+      spend the <em>rest of their lives in.</em>
+    </p>
+    <div class="statement-aside sr sr-d2">
+      <p>BHR Custom Homes grew out of 20 years of hands-on building experience. Today we are a licensed general contractor focused exclusively on projects that demand real craftsmanship — custom builds, full-scale remodels, and additions built to your exact standard.</p>
+      <a href="#about" class="link-underline">Our Story &rarr;</a>
     </div>
   </div>
 </section>
 
-<!-- ============================================================
-     ABOUT
-============================================================ -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-mascot-wrap reveal">
-        <img src="mascot.jpg" alt="Jeff Wyner - BHR Custom Homes Owner" />
-      </div>
-      <div class="about-text">
-        <p class="overline reveal">About BHR Custom Homes</p>
-        <h2 class="display reveal reveal-delay-1">Craftsmanship<br>you can see.<br><em>Quality you'll live in.</em></h2>
-        <p class="reveal reveal-delay-2">BHR Custom Homes started as Bright Home Repair and grew into something bigger — because our clients kept coming back with bigger visions. Today we are a licensed general contractor focused on custom builds, full-scale luxury remodels, and additions that change how you experience your home.</p>
-        <p class="reveal reveal-delay-2">Owner Jeff Wyner brings over 20 years of hands-on experience to every project. That means no subcontractors cutting corners, no surprises at the finish line, and a final product you're proud to live in.</p>
-        <div class="about-sig reveal reveal-delay-3">Jeff Wyner</div>
-        <div class="about-sig-role reveal reveal-delay-3">Owner &amp; General Contractor</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     SERVICES
-============================================================ -->
+<!-- SERVICES -->
 <section id="services">
-  <div class="container">
-    <div class="services-header">
-      <div class="services-header-left reveal">
-        <p class="overline">What We Build</p>
-        <h2 class="display" style="color:var(--white)">Our <em style="color:var(--gold-lt)">Services</em></h2>
-      </div>
-      <p class="services-header-right reveal reveal-delay-2">From ground-up custom builds to complete interior transformations, every project starts with listening and ends with something built to last.</p>
+  <div class="services-top">
+    <h2 class="sr">What We<br><em>Build</em></h2>
+    <p class="services-top-right sr sr-d2">Every project starts with listening. Every project ends with something built to outlast you.</p>
+  </div>
+
+  <div class="service-row sr">
+    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80')"></div>
+    <div class="service-bg-overlay"></div>
+    <div class="service-row-inner">
+      <span class="service-num">01</span>
+      <span class="service-name">Custom Home Builds</span>
+      <p class="service-desc">Ground-up construction built to your exact specifications. We handle every phase from foundation to final finish with no shortcuts and no surprises.</p>
+      <span class="service-tag">New Construction</span>
     </div>
-    <div class="services-grid">
-      <div class="service-card reveal">
-        <div class="service-card-bg" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80')"></div>
-        <div class="service-card-overlay"></div>
-        <div class="service-card-content">
-          <div class="service-num">01</div>
-          <div class="service-line"></div>
-          <h3 class="service-title">Custom Home<br>Builds</h3>
-          <p class="service-desc">Ground-up construction built to your exact specifications. We handle every phase from foundation to finish with no shortcuts.</p>
-        </div>
+  </div>
+
+  <div class="service-row sr">
+    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80')"></div>
+    <div class="service-bg-overlay"></div>
+    <div class="service-row-inner">
+      <span class="service-num">02</span>
+      <span class="service-name">Luxury Remodels</span>
+      <p class="service-desc">Kitchen, bathroom, basement, and whole-home remodels that add real value. We transform how you experience your space every single day.</p>
+      <span class="service-tag">Interior</span>
+    </div>
+  </div>
+
+  <div class="service-row sr">
+    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=80')"></div>
+    <div class="service-bg-overlay"></div>
+    <div class="service-row-inner">
+      <span class="service-num">03</span>
+      <span class="service-name">Home Additions</span>
+      <p class="service-desc">Expand your footprint without losing your home's character. Additions that feel like they were always part of the plan.</p>
+      <span class="service-tag">Expansion</span>
+    </div>
+  </div>
+
+  <div class="service-row sr">
+    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=80')"></div>
+    <div class="service-bg-overlay"></div>
+    <div class="service-row-inner">
+      <span class="service-num">04</span>
+      <span class="service-name">Commercial Renovations</span>
+      <p class="service-desc">Tenant improvements and commercial builds executed on schedule and on budget. Your business stays moving while we build.</p>
+      <span class="service-tag">Commercial</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header">
+    <h2 class="sr">Featured <em>Work</em></h2>
+    <span class="projects-count sr sr-d2">05</span>
+  </div>
+
+  <div class="project-feature pf-1 sr">
+    <div class="project-img">
+      <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=85" alt="Custom Home Build" loading="lazy" />
+      <div class="project-meta">
+        <span class="project-title">Modern Farmhouse Build</span>
+        <span class="project-type">Custom Build</span>
       </div>
-      <div class="service-card reveal reveal-delay-1">
-        <div class="service-card-bg" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80')"></div>
-        <div class="service-card-overlay"></div>
-        <div class="service-card-content">
-          <div class="service-num">02</div>
-          <div class="service-line"></div>
-          <h3 class="service-title">Luxury<br>Remodels</h3>
-          <p class="service-desc">Kitchen, bathroom, basement, and whole-home remodels that add real value and elevate how you live every day.</p>
-        </div>
+    </div>
+    <div class="project-img">
+      <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=85" alt="Master Bath Remodel" loading="lazy" />
+      <div class="project-meta">
+        <span class="project-title">Master Bath — Spa Conversion</span>
+        <span class="project-type">Bathroom Remodel</span>
       </div>
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-card-bg" style="background-image:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=900&q=80')"></div>
-        <div class="service-card-overlay"></div>
-        <div class="service-card-content">
-          <div class="service-num">03</div>
-          <div class="service-line"></div>
-          <h3 class="service-title">Home<br>Additions</h3>
-          <p class="service-desc">Expand your footprint without sacrificing design. Additions that feel like they were always part of the plan.</p>
-        </div>
+    </div>
+  </div>
+
+  <div class="project-feature pf-2 sr" style="margin-top:6px;">
+    <div class="project-img">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85" alt="Kitchen Remodel" loading="lazy" />
+      <div class="project-meta">
+        <span class="project-title">Full Kitchen Gut & Remodel</span>
+        <span class="project-type">Kitchen</span>
       </div>
-      <div class="service-card reveal reveal-delay-3">
-        <div class="service-card-bg" style="background-image:url('https://images.unsplash.com/photo-1484154218962-a197022b5858?w=900&q=80')"></div>
-        <div class="service-card-overlay"></div>
-        <div class="service-card-content">
-          <div class="service-num">04</div>
-          <div class="service-line"></div>
-          <h3 class="service-title">Commercial<br>Renovations</h3>
-          <p class="service-desc">Tenant improvements and commercial builds done on schedule and on budget. Your business stays moving.</p>
-        </div>
+    </div>
+    <div class="project-img">
+      <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=85" alt="Home Addition" loading="lazy" />
+      <div class="project-meta">
+        <span class="project-title">Second Story Addition</span>
+        <span class="project-type">Addition</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-feature pf-3 sr" style="margin-top:6px;">
+    <div class="project-img">
+      <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=1800&q=85" alt="Luxury Exterior" loading="lazy" />
+      <div class="project-meta">
+        <span class="project-title">Full Basement Build-Out</span>
+        <span class="project-type">Interior</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================================================
-     PROCESS
-============================================================ -->
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-col sr">
+      <img src="mascot.jpg" alt="Jeff Wyner — Owner, BHR Custom Homes" />
+    </div>
+    <div class="about-text-col">
+      <div class="label sr">About BHR</div>
+      <h2 class="about-headline sr sr-d1">
+        Craftsmanship<br>you can see.<br><em>Quality you'll<br>live in.</em>
+      </h2>
+      <p class="about-body sr sr-d2">BHR Custom Homes started as Bright Home Repair — and grew into something bigger because our clients kept coming back with bigger visions. Today we are a licensed general contractor focused on custom builds, full-scale luxury remodels, and additions that change how you experience your home.</p>
+      <p class="about-body sr sr-d2">Owner Jeff Wyner brings over 20 years of hands-on experience to every project. That means no corners cut, no surprises at the finish line, and a final product you are proud to live in.</p>
+      <div class="about-stats sr sr-d3">
+        <div>
+          <div class="about-stat-num">20+</div>
+          <div class="about-stat-label">Years Experience</div>
+        </div>
+        <div>
+          <div class="about-stat-num">200+</div>
+          <div class="about-stat-label">Projects Built</div>
+        </div>
+        <div>
+          <div class="about-stat-num">100%</div>
+          <div class="about-stat-label">Licensed & Insured</div>
+        </div>
+      </div>
+      <div class="about-sig sr sr-d4">Jeff Wyner</div>
+      <div class="about-sig-title sr sr-d4">Owner & General Contractor</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
 <section id="process">
-  <div class="container">
-    <div class="process-header">
-      <p class="overline reveal">How It Works</p>
-      <h2 class="display reveal reveal-delay-1">A process built for<br><em>your peace of mind</em></h2>
+  <div class="process-inner">
+    <div class="process-left">
+      <h2 class="sr">A process built<br>for your <em>peace<br>of mind.</em></h2>
+      <p class="sr sr-d1">We map out every detail before a single tool touches your home. No guesswork. No delays. No surprises.</p>
     </div>
     <div class="process-steps">
-      <div class="process-step reveal">
-        <div class="step-circle"><span class="step-num">1</span></div>
-        <h3 class="step-title">Consultation</h3>
-        <p class="step-desc">We sit down and listen. You share your vision, your timeline, your budget. No pressure, no pitch — just a real conversation.</p>
+      <div class="process-step sr">
+        <div class="process-step-num">1</div>
+        <div class="process-step-content">
+          <div class="process-step-title">Consultation</div>
+          <p class="process-step-desc">We sit down and listen. You share your vision, timeline, and budget. No pressure — just a real conversation about what you want to build.</p>
+        </div>
       </div>
-      <div class="process-step reveal reveal-delay-1">
-        <div class="step-circle"><span class="step-num">2</span></div>
-        <h3 class="step-title">Design &amp; Planning</h3>
-        <p class="step-desc">We map out the full scope, select materials, and lock in a detailed project plan before a single tool touches your home.</p>
+      <div class="process-step sr sr-d1">
+        <div class="process-step-num">2</div>
+        <div class="process-step-content">
+          <div class="process-step-title">Design & Planning</div>
+          <p class="process-step-desc">We map out the full scope, select materials, and lock in a detailed plan before anything starts. Every decision is made before we break ground.</p>
+        </div>
       </div>
-      <div class="process-step reveal reveal-delay-2">
-        <div class="step-circle"><span class="step-num">3</span></div>
-        <h3 class="step-title">Build Phase</h3>
-        <p class="step-desc">Skilled crews, scheduled milestones, and weekly updates keep you in the loop. We work efficiently and clean up behind ourselves.</p>
+      <div class="process-step sr sr-d2">
+        <div class="process-step-num">3</div>
+        <div class="process-step-content">
+          <div class="process-step-title">Build Phase</div>
+          <p class="process-step-desc">Skilled crews, scheduled milestones, and weekly updates. We work efficiently, we communicate constantly, and we clean up behind ourselves.</p>
+        </div>
       </div>
-      <div class="process-step reveal reveal-delay-3">
-        <div class="step-circle"><span class="step-num">4</span></div>
-        <h3 class="step-title">Final Walkthrough</h3>
-        <p class="step-desc">We walk every inch of the project with you before we call it done. Nothing leaves our hands until it meets your standard.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     PROJECTS
-============================================================ -->
-<section id="projects">
-  <div class="container">
-    <div class="projects-header">
-      <div>
-        <p class="overline reveal">Our Work</p>
-        <h2 class="display reveal reveal-delay-1">Featured <em>Projects</em></h2>
-      </div>
-      <span class="projects-header-right reveal">View All Work</span>
-    </div>
-    <div class="gallery-grid">
-      <div class="gallery-item reveal">
-        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80" alt="Custom home build exterior" loading="lazy" />
-        <div class="gallery-overlay"><span class="gallery-label">Custom Build — Modern Farmhouse</span></div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-1">
-        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Luxury kitchen remodel" loading="lazy" />
-        <div class="gallery-overlay"><span class="gallery-label">Kitchen Remodel — Full Gut</span></div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-1">
-        <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80" alt="Master bathroom remodel" loading="lazy" />
-        <div class="gallery-overlay"><span class="gallery-label">Master Bath — Spa Conversion</span></div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-2">
-        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80" alt="Home addition project" loading="lazy" />
-        <div class="gallery-overlay"><span class="gallery-label">Home Addition — Second Story</span></div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-3">
-        <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=800&q=80" alt="Basement finish" loading="lazy" />
-        <div class="gallery-overlay"><span class="gallery-label">Basement Finish — Full Build-Out</span></div>
+      <div class="process-step sr sr-d3">
+        <div class="process-step-num">4</div>
+        <div class="process-step-content">
+          <div class="process-step-title">Final Walkthrough</div>
+          <p class="process-step-desc">We walk every inch of the project with you before we call it done. Nothing leaves our hands until it meets your standard.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================================================
-     TESTIMONIALS
-============================================================ -->
-<section id="testimonials">
-  <div class="container">
-    <div class="testimonials-header">
-      <p class="overline reveal">Client Reviews</p>
-      <h2 class="display reveal reveal-delay-1">What our clients <em>say</em></h2>
+<!-- TESTIMONIAL -->
+<section id="testimonial">
+  <div class="testimonial-inner">
+    <div class="testimonial-quote sr" id="tQuote">
+      "Jeff and his team completely transformed our master bathroom. The attention to detail was unlike anything I expected. We had a strict timeline and they beat it by three days."
     </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card reveal">
-        <div class="testimonial-quote">&ldquo;</div>
-        <p class="testimonial-text">Jeff and his team completely transformed our master bathroom. The attention to detail was unlike anything I expected. We had a strict timeline and they beat it by three days.</p>
+    <div class="testimonial-footer">
+      <div class="testimonial-author sr sr-d1">
+        <div class="testimonial-name" id="tName">Sarah M. — Homeowner</div>
         <div class="testimonial-stars">
           <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
         </div>
-        <div class="testimonial-author">Sarah M. &mdash; Homeowner</div>
       </div>
-      <div class="testimonial-card reveal reveal-delay-1">
-        <div class="testimonial-quote">&ldquo;</div>
-        <p class="testimonial-text">We hired BHR for a full kitchen gut and remodel. From design to final walkthrough the process was smooth. Jeff communicated every step. We'd hire them again without hesitation.</p>
-        <div class="testimonial-stars">
-          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-        </div>
-        <div class="testimonial-author">David &amp; Karen L. &mdash; Homeowners</div>
-      </div>
-      <div class="testimonial-card reveal reveal-delay-2">
-        <div class="testimonial-quote">&ldquo;</div>
-        <p class="testimonial-text">Professional from the first call to the final nail. They added a whole second story to our house and it looks like it was always there. Couldn't be happier with the investment.</p>
-        <div class="testimonial-stars">
-          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-        </div>
-        <div class="testimonial-author">Mark T. &mdash; Homeowner</div>
+      <div class="testimonial-nav sr sr-d2">
+        <button class="t-btn" onclick="prevT()">&#8592;</button>
+        <button class="t-btn" onclick="nextT()">&#8594;</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================================================
-     CTA BAND
-============================================================ -->
-<section id="cta">
-  <div class="cta-bg"></div>
-  <div class="container">
-    <div class="cta-content">
-      <p class="overline reveal">Ready to Build?</p>
-      <h2 class="display reveal reveal-delay-1">Your project starts<br>with a <em>conversation.</em></h2>
-      <div class="cta-divider reveal reveal-delay-2"></div>
-      <p class="reveal reveal-delay-2">No pressure. No hard sell. Just tell us what you're envisioning and we'll tell you how we'd build it.</p>
-      <a href="#contact" class="btn-primary reveal reveal-delay-3">Schedule a Free Consultation</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     CONTACT
-============================================================ -->
+<!-- CONTACT -->
 <section id="contact">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-info">
-        <p class="overline reveal">Get In Touch</p>
-        <h2 class="display reveal reveal-delay-1">Let's talk about<br>your <em>project.</em></h2>
-        <p class="reveal reveal-delay-2">Whether you're planning a custom build or ready to start a remodel, reach out and we'll schedule a free consultation at your convenience.</p>
-        <div class="contact-details">
-          <div class="contact-detail reveal reveal-delay-2">
-            <div class="contact-detail-icon">&#9742;</div>
-            <div>
-              <div class="contact-detail-label">Phone</div>
-              <div class="contact-detail-text">Call or text anytime<br><strong>Your number here</strong></div>
-            </div>
-          </div>
-          <div class="contact-detail reveal reveal-delay-3">
-            <div class="contact-detail-icon">&#9993;</div>
-            <div>
-              <div class="contact-detail-label">Email</div>
-              <div class="contact-detail-text">jeff@bhrcustomhomes.com</div>
-            </div>
-          </div>
-          <div class="contact-detail reveal reveal-delay-3">
-            <div class="contact-detail-icon">&#9679;</div>
-            <div>
-              <div class="contact-detail-label">Licensed &amp; Insured</div>
-              <div class="contact-detail-text">General Contractor<br>License #[YOUR LICENSE]</div>
-            </div>
-          </div>
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="label sr">Get In Touch</div>
+      <h2 class="sr sr-d1">Let's build<br><em>something.</em></h2>
+      <p class="sr sr-d2">Whether you're planning a ground-up build or a full-scale remodel, reach out and we'll schedule a free consultation at your convenience. No pressure, no pitch.</p>
+      <div class="contact-details">
+        <div class="contact-item sr sr-d2">
+          <div class="contact-item-label">Phone</div>
+          <div class="contact-item-val">Your number here</div>
+        </div>
+        <div class="contact-item sr sr-d3">
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-val">jeff@bhrcustomhomes.com</div>
+        </div>
+        <div class="contact-item sr sr-d3">
+          <div class="contact-item-label">License</div>
+          <div class="contact-item-val">GC #[YOUR LICENSE]</div>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form sr sr-d1" id="contactForm">
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+      <input type="hidden" name="subject" value="New Project Inquiry — BHR Custom Homes" />
+
+      <div class="field-row">
+        <div class="field">
+          <input type="text" name="first_name" id="fname" placeholder="x" required />
+          <label for="fname">First Name</label>
+        </div>
+        <div class="field">
+          <input type="text" name="last_name" id="lname" placeholder="x" required />
+          <label for="lname">Last Name</label>
         </div>
       </div>
 
-      <div>
-        <form class="contact-form reveal reveal-delay-1" id="contactForm">
-          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
-          <input type="hidden" name="subject" value="New Project Inquiry - BHR Custom Homes" />
-          <input type="hidden" name="from_name" value="BHR Custom Homes Website" />
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="firstName">First Name</label>
-              <input class="form-input" type="text" id="firstName" name="first_name" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="lastName">Last Name</label>
-              <input class="form-input" type="text" id="lastName" name="last_name" required />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="email">Email</label>
-              <input class="form-input" type="email" id="email" name="email" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="phone">Phone</label>
-              <input class="form-input" type="tel" id="phone" name="phone" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="projectType">Project Type</label>
-            <select class="form-select" id="projectType" name="project_type">
-              <option value="">Select a service...</option>
-              <option value="Custom Home Build">Custom Home Build</option>
-              <option value="Luxury Remodel">Luxury Remodel</option>
-              <option value="Home Addition">Home Addition</option>
-              <option value="Kitchen Remodel">Kitchen Remodel</option>
-              <option value="Bathroom Remodel">Bathroom Remodel</option>
-              <option value="Commercial Renovation">Commercial Renovation</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="message">Tell Us About Your Project</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="Describe your vision, timeline, rough budget, and anything else that would help us prepare for our conversation." required></textarea>
-          </div>
-          <button type="submit" class="form-submit">Send Message</button>
-          <div class="form-success" id="formSuccess">
-            Thank you. We'll be in touch within one business day.
-          </div>
-        </form>
+      <div class="field-row">
+        <div class="field">
+          <input type="email" name="email" id="femail" placeholder="x" required />
+          <label for="femail">Email Address</label>
+        </div>
+        <div class="field">
+          <input type="tel" name="phone" id="fphone" placeholder="x" />
+          <label for="fphone">Phone Number</label>
+        </div>
       </div>
-    </div>
+
+      <div class="field">
+        <select name="project_type" id="ftype" required>
+          <option value="" disabled selected></option>
+          <option value="Custom Home Build">Custom Home Build</option>
+          <option value="Luxury Remodel">Luxury Remodel</option>
+          <option value="Home Addition">Home Addition</option>
+          <option value="Kitchen Remodel">Kitchen Remodel</option>
+          <option value="Bathroom Remodel">Bathroom Remodel</option>
+          <option value="Commercial Renovation">Commercial Renovation</option>
+          <option value="Other">Other</option>
+        </select>
+        <label for="ftype">Project Type</label>
+      </div>
+
+      <div class="field">
+        <textarea name="message" id="fmsg" placeholder="x" required></textarea>
+        <label for="fmsg">Tell Us About Your Project</label>
+      </div>
+
+      <div class="form-submit-row">
+        <button type="submit" class="btn-submit">
+          Send Message
+          <span class="submit-line"></span>
+        </button>
+      </div>
+      <div class="form-success" id="formSuccess">
+        Thank you — we'll be in touch within one business day.
+      </div>
+    </form>
   </div>
 </section>
 
-<!-- ============================================================
-     FOOTER
-============================================================ -->
+<!-- FOOTER -->
 <footer>
-  <div class="container">
+  <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-logo">
         <img src="logo.png" alt="BHR Custom Homes" />
-        <p class="footer-brand-desc">Licensed general contractor specializing in custom builds, luxury remodels, and additions. Every project is personal.</p>
       </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#services">Custom Home Builds</a></li>
-          <li><a href="#services">Luxury Remodels</a></li>
-          <li><a href="#services">Home Additions</a></li>
-          <li><a href="#services">Commercial Renovations</a></li>
-        </ul>
+      <div class="footer-links">
+        <a href="#statement">About</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
       </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#about">About Jeff</a></li>
-          <li><a href="#projects">Our Projects</a></li>
-          <li><a href="#process">Our Process</a></li>
-          <li><a href="#testimonials">Reviews</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="#contact">Start a Project</a></li>
-          <li><a href="#contact">Free Consultation</a></li>
-          <li><a href="mailto:jeff@bhrcustomhomes.com">Email Us</a></li>
-        </ul>
+      <div class="footer-right">
+        <div class="footer-right-label">Follow</div>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/brighthomerepair" target="_blank" rel="noopener">Facebook</a>
+          <a href="#" target="_blank">Instagram</a>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">&copy; 2025 BHR Custom Homes. All rights reserved. Licensed General Contractor.</p>
-      <div class="footer-socials">
-        <a href="https://www.facebook.com/brighthomerepair" target="_blank" rel="noopener">Facebook</a>
-        <a href="#" target="_blank">Instagram</a>
-      </div>
+      <p class="footer-copy">&copy; 2025 BHR Custom Homes. Licensed General Contractor. All rights reserved.</p>
+      <p class="footer-legal">Built by Ron Lenser Digital</p>
     </div>
   </div>
 </footer>
 
-<!-- ============================================================
-     JS
-============================================================ -->
 <script>
-  // Nav scroll
-  const nav = document.getElementById('mainNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
+  /* -- CURSOR -- */
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  });
+  const raf = () => {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(raf);
+  };
+  raf();
+  document.querySelectorAll('a, button, .service-row, .project-img').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
   });
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+  /* -- NAV -- */
+  const nav = document.getElementById('nav');
+  const navLinks = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 40;
+    nav.classList.toggle('dark', scrolled);
+    navLinks.forEach(l => {
+      l.classList.toggle('light', !scrolled);
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
+  });
+  // trigger once on load
+  window.dispatchEvent(new Event('scroll'));
 
-  // Mobile menu
-  function openMobile() { document.getElementById('mobileMenu').classList.add('open'); }
-  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
-  document.getElementById('mobileClose').addEventListener('click', closeMobile);
+  /* -- MOBILE NAV -- */
+  function openMob() { document.getElementById('mobNav').classList.add('open'); }
+  function closeMob() { document.getElementById('mobNav').classList.remove('open'); }
 
-  // Contact form
+  /* -- HERO BG ANIMATION -- */
+  window.addEventListener('load', () => {
+    document.getElementById('heroBg').classList.add('loaded');
+  });
+
+  /* -- SCROLL REVEAL -- */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.sr').forEach(el => obs.observe(el));
+
+  /* -- TESTIMONIALS -- */
+  const testimonials = [
+    { quote: '"Jeff and his team completely transformed our master bathroom. The attention to detail was unlike anything I expected. We had a strict timeline and they beat it by three days."', name: 'Sarah M. — Homeowner' },
+    { quote: '"We hired BHR for a full kitchen gut and remodel. From design to final walkthrough the process was seamless. Jeff communicated every step. We\'d hire them again without hesitation."', name: 'David & Karen L. — Homeowners' },
+    { quote: '"Professional from the first call to the final nail. They added a whole second story to our house and it looks like it was always there. Couldn\'t be happier with the investment."', name: 'Mark T. — Homeowner' }
+  ];
+  let ti = 0;
+  const tQuote = document.getElementById('tQuote');
+  const tName = document.getElementById('tName');
+  function setT(i) {
+    tQuote.classList.add('fade');
+    setTimeout(() => {
+      tQuote.textContent = testimonials[i].quote;
+      tName.textContent = testimonials[i].name;
+      tQuote.classList.remove('fade');
+    }, 400);
+  }
+  function nextT() { ti = (ti + 1) % testimonials.length; setT(ti); }
+  function prevT() { ti = (ti - 1 + testimonials.length) % testimonials.length; setT(ti); }
+
+  /* -- CONTACT FORM -- */
   const form = document.getElementById('contactForm');
-  const successMsg = document.getElementById('formSuccess');
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = form.querySelector('.form-submit');
-    btn.textContent = 'Sending...';
+    const btn = form.querySelector('.btn-submit');
+    const origText = btn.childNodes[0].textContent;
+    btn.childNodes[0].textContent = 'Sending...';
     btn.disabled = true;
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(Object.fromEntries(new FormData(form)))
       });
       const data = await res.json();
       if (data.success) {
         form.reset();
-        successMsg.style.display = 'block';
+        document.getElementById('formSuccess').style.display = 'block';
         btn.style.display = 'none';
       } else {
-        btn.textContent = 'Send Message';
+        btn.childNodes[0].textContent = origText;
         btn.disabled = false;
-        alert('Something went wrong. Please try again or call us directly.');
+        alert('Something went wrong. Please try again.');
       }
     } catch {
-      btn.textContent = 'Send Message';
+      btn.childNodes[0].textContent = origText;
       btn.disabled = false;
-      alert('Something went wrong. Please try again.');
     }
   });
 </script>
 
-<!-- Local Business Schema -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "HomeAndConstructionBusiness",
   "name": "BHR Custom Homes",
   "url": "https://brighthomerepair.com",
-  "logo": "https://brighthomerepair.com/logo.png",
   "description": "Licensed general contractor specializing in custom home builds, luxury remodels, and additions.",
   "founder": { "@type": "Person", "name": "Jeff Wyner" },
   "priceRange": "$$$",
   "telephone": "YOUR_PHONE",
   "email": "jeff@bhrcustomhomes.com",
-  "sameAs": [
-    "https://www.facebook.com/brighthomerepair"
-  ]
+  "sameAs": ["https://www.facebook.com/brighthomerepair"]
 }
 </script>
-
 </body>
 </html>
