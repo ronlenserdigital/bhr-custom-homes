@@ -12,1188 +12,990 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:      #0d0b09;
-      --ink-2:    #2a2520;
-      --gold:     #b89a45;
-      --gold-lt:  #cdb05e;
-      --parchment:#f4efe6;
-      --warm-white:#fdfaf5;
-      --mid:      #7a7268;
-      --faint:    rgba(13,11,9,0.08);
+      --black:    #0c0b09;
+      --black-2:  #1a1714;
+      --gold:     #b89645;
+      --gold-lt:  #cead5e;
+      --cream:    #f3ede3;
+      --white:    #fdfaf5;
+      --gray:     #6e6760;
+      --gray-lt:  #a09890;
+      --rule:     rgba(12,11,9,0.1);
 
-      --serif:  'Cormorant', Georgia, serif;
-      --sans:   'Syne', sans-serif;
-      --max:    1400px;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans:  'Jost', sans-serif;
+      --pad:   clamp(24px, 5vw, 72px);
+      --max:   1360px;
     }
 
-    html { scroll-behavior: smooth; font-size: 16px; }
-
+    html { scroll-behavior: smooth; }
     body {
-      background: var(--warm-white);
-      color: var(--ink);
+      background: var(--white);
+      color: var(--black);
       font-family: var(--sans);
-      font-weight: 400;
-      line-height: 1.6;
+      font-weight: 300;
+      line-height: 1.65;
       overflow-x: hidden;
-      cursor: none;
     }
-
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
     ul { list-style: none; }
 
-    /* ======================================================
-       CURSOR
-    ====================================================== */
-    .cursor-dot {
-      position: fixed;
-      width: 6px; height: 6px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s ease;
-    }
-    .cursor-ring {
-      position: fixed;
-      width: 32px; height: 32px;
-      border: 1px solid rgba(184,154,69,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
-    }
-    .cursor-ring.expand {
-      width: 56px; height: 56px;
-      border-color: var(--gold);
-    }
-
-    /* ======================================================
-       NAV
-    ====================================================== */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      transition: background 0.5s ease, border-color 0.5s ease;
-      border-bottom: 1px solid transparent;
-    }
-    nav.dark {
-      background: rgba(13,11,9,0.96);
-      border-bottom-color: rgba(184,154,69,0.15);
-      backdrop-filter: blur(20px);
-    }
-    .nav-inner {
-      width: 100%;
+    .wrap {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 0 48px;
+      padding: 0 var(--pad);
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .sr {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .sr.in { opacity: 1; transform: none; }
+    .sr-d1 { transition-delay: 0.1s; }
+    .sr-d2 { transition-delay: 0.2s; }
+    .sr-d3 { transition-delay: 0.3s; }
+    .sr-d4 { transition-delay: 0.45s; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed;
+      inset: 0 0 auto;
+      height: 72px;
+      z-index: 100;
+      transition: background 0.45s ease, border-color 0.45s ease;
+      border-bottom: 1px solid transparent;
+    }
+    nav.solid {
+      background: rgba(12,11,9,0.96);
+      border-color: rgba(184,150,69,0.18);
+      backdrop-filter: blur(18px);
+    }
+    .nav-wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 100%;
     }
-    .nav-logo {
+    .nav-logo { display: flex; align-items: center; overflow: visible; }
+    .nav-logo img { height: 96px; width: auto; }
+
+    .nav-links {
       display: flex;
       align-items: center;
-      height: 100%;
-      overflow: visible;
-    }
-    .nav-logo img {
-      height: 100px;
-      width: auto;
-    }
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 48px;
+      gap: 44px;
     }
     .nav-link {
-      font-family: var(--sans);
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(253,250,245,0.6);
+      color: rgba(253,250,245,0.55);
       transition: color 0.2s;
       position: relative;
     }
     .nav-link::after {
       content: '';
       position: absolute;
-      bottom: -3px; left: 0;
+      left: 0; bottom: -4px;
       width: 0; height: 1px;
       background: var(--gold);
       transition: width 0.3s ease;
     }
-    .nav-link:hover { color: var(--warm-white); }
+    .nav-link:hover { color: var(--white); }
     .nav-link:hover::after { width: 100%; }
-    .nav-link.light { color: rgba(13,11,9,0.5); }
-    .nav-link.light:hover { color: var(--ink); }
-    .nav-cta-link {
-      font-family: var(--sans);
+    .nav-start {
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--gold);
-      transition: color 0.2s;
+      border: 1px solid rgba(184,150,69,0.45);
+      padding: 10px 22px;
+      transition: background 0.25s, color 0.25s;
     }
-    .nav-cta-link:hover { color: var(--gold-lt); }
-
-    .hamburger {
+    .nav-start:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+    .nav-burger {
       display: none;
       flex-direction: column;
-      gap: 6px;
-      cursor: none;
+      gap: 5px;
+      cursor: pointer;
     }
-    .hamburger span {
+    .nav-burger span {
       display: block;
-      width: 28px;
-      height: 1px;
-      background: var(--warm-white);
+      width: 26px; height: 1.5px;
+      background: var(--white);
       transition: all 0.3s;
     }
-    .mob-nav {
+
+    /* mobile nav */
+    .mob {
       position: fixed;
       inset: 0;
-      background: var(--ink);
+      background: var(--black);
       z-index: 200;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 48px;
+      gap: 8px;
+      padding: 60px var(--pad);
       transform: translateX(100%);
       transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
     }
-    .mob-nav.open { transform: translateX(0); }
-    .mob-nav-close {
+    .mob.open { transform: translateX(0); }
+    .mob-close {
       position: absolute;
-      top: 28px; right: 48px;
-      font-size: 28px;
-      color: var(--warm-white);
+      top: 24px; right: var(--pad);
+      font-size: 30px;
+      color: var(--white);
       background: none;
       border: none;
-      cursor: none;
+      cursor: pointer;
       line-height: 1;
     }
-    .mob-nav a {
+    .mob a {
       font-family: var(--serif);
-      font-size: clamp(36px, 7vw, 56px);
+      font-size: clamp(32px, 6vw, 52px);
       font-weight: 300;
-      color: rgba(253,250,245,0.7);
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: rgba(253,250,245,0.6);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
       transition: color 0.2s;
     }
-    .mob-nav a:hover { color: var(--gold); }
+    .mob a:hover { color: var(--gold); }
 
-    /* ======================================================
-       HERO — SPLIT COMPOSITION
-    ====================================================== */
+    /* ============================================================
+       HERO — VERTICAL SPLIT
+    ============================================================ */
     #hero {
-      height: 100svh;
-      min-height: 640px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
+      grid-template-columns: 52% 48%;
+      height: 100svh;
+      min-height: 680px;
     }
+
     .hero-left {
-      background: var(--ink);
+      background: var(--black);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 0 72px 80px;
-      position: relative;
-      z-index: 2;
+      padding: 0 var(--pad) 80px;
+      padding-left: clamp(24px, 5vw, 80px);
     }
-    .hero-eyebrow {
-      display: flex;
+    .hero-tag {
+      display: inline-flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .hero-eyebrow-line {
-      width: 32px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .hero-eyebrow-text {
-      font-family: var(--sans);
+      gap: 14px;
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--gold);
+      margin-bottom: 36px;
     }
-    .hero-headline {
+    .hero-tag-line { width: 28px; height: 1px; background: var(--gold); }
+
+    h1.hero-h1 {
       font-family: var(--serif);
-      font-size: clamp(64px, 7.5vw, 110px);
+      font-size: clamp(68px, 8vw, 116px);
       font-weight: 300;
-      line-height: 0.92;
-      color: var(--warm-white);
-      margin-bottom: 48px;
+      line-height: 0.9;
+      color: var(--white);
       letter-spacing: -0.01em;
+      margin-bottom: 52px;
     }
-    .hero-headline em {
+    h1.hero-h1 em {
       font-style: italic;
       font-weight: 300;
+      color: var(--gold-lt);
+      display: block;
     }
-    .hero-sub-row {
+
+    .hero-bottom {
       display: flex;
       align-items: flex-end;
+      gap: 40px;
       justify-content: space-between;
-      gap: 32px;
     }
-    .hero-sub {
+    .hero-desc {
       font-size: 14px;
-      color: rgba(253,250,245,0.45);
-      line-height: 1.75;
-      max-width: 280px;
-      font-weight: 400;
+      color: rgba(253,250,245,0.42);
+      line-height: 1.8;
+      max-width: 260px;
     }
-    .hero-cta {
+    .btn-arrow {
       display: inline-flex;
       align-items: center;
       gap: 16px;
-      font-family: var(--sans);
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--warm-white);
+      color: var(--white);
       white-space: nowrap;
       flex-shrink: 0;
-      transition: gap 0.3s ease;
+      transition: gap 0.35s ease;
     }
-    .hero-cta:hover { gap: 24px; }
-    .hero-cta-arrow {
-      width: 48px;
+    .btn-arrow:hover { gap: 26px; }
+    .arrow-line {
+      position: relative;
+      width: 44px;
       height: 1px;
       background: var(--gold);
-      position: relative;
-      transition: width 0.3s ease;
+      transition: width 0.35s ease;
     }
-    .hero-cta-arrow::after {
+    .arrow-line::after {
       content: '';
       position: absolute;
-      right: 0; top: -3px;
-      width: 7px; height: 7px;
+      right: -1px; top: -3.5px;
+      width: 8px; height: 8px;
+      border-top: 1px solid var(--gold);
       border-right: 1px solid var(--gold);
-      border-bottom: 1px solid var(--gold);
-      transform: rotate(-45deg);
+      transform: rotate(45deg);
     }
-    .hero-cta:hover .hero-cta-arrow { width: 64px; }
+    .btn-arrow:hover .arrow-line { width: 64px; }
 
     .hero-right {
       position: relative;
       overflow: hidden;
     }
-    .hero-right-img {
+    .hero-right-photo {
       position: absolute;
       inset: 0;
-      background: url('https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1200&q=85') center/cover no-repeat;
-      transform: scale(1.04);
-      transition: transform 6s ease;
+      background: url('https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1400&q=85') center/cover no-repeat;
+      transition: transform 7s ease;
     }
-    .hero-right-img.loaded { transform: scale(1); }
-    .hero-right-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, rgba(13,11,9,0.3) 0%, transparent 40%);
-    }
-    .hero-counter {
-      position: absolute;
-      bottom: 40px;
-      right: 40px;
-      text-align: right;
-    }
-    .hero-counter-num {
-      font-family: var(--serif);
-      font-size: 64px;
-      font-weight: 300;
-      color: var(--warm-white);
-      line-height: 1;
-    }
-    .hero-counter-label {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(253,250,245,0.5);
-    }
-    .hero-scroll-indicator {
-      position: absolute;
-      bottom: 40px;
-      left: 72px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      z-index: 3;
-    }
-    .hero-scroll-indicator span {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(253,250,245,0.3);
-      writing-mode: vertical-rl;
-    }
-    .scroll-bar {
-      width: 1px;
-      height: 64px;
-      background: rgba(255,255,255,0.1);
-      position: relative;
-      overflow: hidden;
-    }
-    .scroll-bar::after {
+    body.loaded .hero-right-photo { transform: scale(1.03); }
+    .hero-right-photo::after {
       content: '';
       position: absolute;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--gold);
-      animation: scrollBar 2s ease-in-out infinite;
+      inset: 0;
+      background: linear-gradient(to right, rgba(12,11,9,0.25) 0%, transparent 35%);
     }
-    @keyframes scrollBar {
-      0% { top: -100%; }
-      100% { top: 100%; }
+    .hero-stat {
+      position: absolute;
+      bottom: 48px;
+      right: 48px;
+      text-align: right;
+    }
+    .hero-stat-n {
+      font-family: var(--serif);
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-stat-l {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(253,250,245,0.4);
+      margin-top: 4px;
     }
 
-    /* ======================================================
-       STATEMENT — FULL WIDTH EDITORIAL
-    ====================================================== */
-    #statement {
-      padding: 160px 0;
-      border-bottom: 1px solid var(--faint);
+    /* ============================================================
+       INTRO STATEMENT
+    ============================================================ */
+    #intro {
+      padding: 140px 0;
+      border-bottom: 1px solid var(--rule);
     }
-    .statement-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 48px;
+    .intro-grid {
       display: grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 1fr 380px;
       gap: 80px;
       align-items: end;
     }
-    .statement-text {
+    .intro-headline {
       font-family: var(--serif);
-      font-size: clamp(36px, 4vw, 58px);
+      font-size: clamp(34px, 4vw, 56px);
       font-weight: 300;
-      line-height: 1.18;
+      line-height: 1.2;
       letter-spacing: -0.01em;
-      color: var(--ink);
     }
-    .statement-text em {
-      font-style: italic;
-      color: var(--gold);
+    .intro-headline em { font-style: italic; color: var(--gold); }
+    .intro-aside p {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.85;
+      margin-bottom: 36px;
     }
-    .statement-aside {
-      padding-bottom: 8px;
-    }
-    .statement-aside p {
-      font-size: 14px;
-      color: var(--mid);
-      line-height: 1.8;
-      margin-bottom: 32px;
-    }
-    .link-underline {
+    .link-line {
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      font-family: var(--sans);
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--ink);
-      border-bottom: 1px solid var(--ink);
-      padding-bottom: 4px;
+      color: var(--black);
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 3px;
       transition: color 0.2s, border-color 0.2s;
     }
-    .link-underline:hover {
-      color: var(--gold);
-      border-color: var(--gold);
-    }
+    .link-line:hover { color: var(--gold); border-color: var(--gold); }
 
-    /* ======================================================
-       SERVICES — STACKED ROWS
-    ====================================================== */
+    /* ============================================================
+       SERVICES — HOVER ROWS
+    ============================================================ */
     #services {
-      background: var(--ink);
-      padding: 0;
-      overflow: hidden;
+      background: var(--black);
     }
-    .services-top {
+    .services-head {
+      padding: 100px var(--pad) 64px;
       max-width: var(--max);
       margin: 0 auto;
-      padding: 100px 48px 72px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .services-top h2 {
+    .services-head h2 {
       font-family: var(--serif);
-      font-size: clamp(48px, 5vw, 78px);
+      font-size: clamp(44px, 5vw, 72px);
       font-weight: 300;
-      color: var(--warm-white);
+      color: var(--white);
       line-height: 1;
     }
-    .services-top h2 em { font-style: italic; color: var(--gold); }
-    .services-top-right {
+    .services-head h2 em { font-style: italic; color: var(--gold-lt); }
+    .services-head-note {
       font-size: 13px;
-      color: rgba(253,250,245,0.35);
-      max-width: 300px;
+      color: rgba(253,250,245,0.3);
+      max-width: 280px;
       line-height: 1.75;
       text-align: right;
     }
 
-    .service-row {
+    .svc-row {
+      position: relative;
       border-bottom: 1px solid rgba(255,255,255,0.06);
-      position: relative;
       overflow: hidden;
-      cursor: none;
+      cursor: default;
     }
-    .service-row-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 48px;
-      display: grid;
-      grid-template-columns: 80px 1fr 1fr 120px;
-      align-items: center;
-      gap: 48px;
-      height: 120px;
-      transition: height 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-      position: relative;
-      z-index: 2;
-    }
-    .service-num {
-      font-family: var(--serif);
-      font-size: 13px;
-      color: rgba(184,154,69,0.5);
-      letter-spacing: 0.2em;
-      font-weight: 400;
-    }
-    .service-name {
-      font-family: var(--serif);
-      font-size: clamp(28px, 3vw, 42px);
-      font-weight: 300;
-      color: var(--warm-white);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: color 0.3s;
-    }
-    .service-desc {
-      font-size: 14px;
-      color: rgba(253,250,245,0.0);
-      line-height: 1.7;
-      transition: color 0.4s ease;
-      max-width: 420px;
-    }
-    .service-tag {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(253,250,245,0.25);
-      text-align: right;
-      transition: color 0.3s;
-    }
-    .service-bg {
+    .svc-photo {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.55s ease;
     }
-    .service-bg-overlay {
+    .svc-photo-dim {
       position: absolute;
       inset: 0;
-      background: rgba(13,11,9,0.82);
+      background: rgba(12,11,9,0.78);
       opacity: 0;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.55s ease;
     }
-    .service-row:hover .service-bg,
-    .service-row:hover .service-bg-overlay { opacity: 1; }
-    .service-row:hover .service-name { color: var(--gold); }
-    .service-row:hover .service-desc { color: rgba(253,250,245,0.55); }
-    .service-row:hover .service-tag { color: var(--gold); }
-    .service-row:hover .service-row-inner { height: 160px; }
+    .svc-row:hover .svc-photo,
+    .svc-row:hover .svc-photo-dim { opacity: 1; }
 
-    /* ======================================================
-       PROJECTS — EDITORIAL LAYOUT
-    ====================================================== */
-    #projects {
-      padding: 160px 0;
-    }
-    .projects-header {
+    .svc-inner {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 0 48px;
+      padding: 0 var(--pad);
+      height: 108px;
+      display: grid;
+      grid-template-columns: 64px 1fr 1fr 100px;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      z-index: 2;
+      transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .svc-row:hover .svc-inner { height: 150px; }
+
+    .svc-n {
+      font-family: var(--serif);
+      font-size: 13px;
+      color: rgba(184,150,69,0.45);
+      letter-spacing: 0.2em;
+    }
+    .svc-name {
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.8vw, 38px);
+      font-weight: 300;
+      color: var(--white);
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+    .svc-row:hover .svc-name { color: var(--gold-lt); }
+    .svc-desc {
+      font-size: 13.5px;
+      color: rgba(253,250,245,0);
+      line-height: 1.7;
+      max-width: 400px;
+      transition: color 0.45s ease;
+    }
+    .svc-row:hover .svc-desc { color: rgba(253,250,245,0.55); }
+    .svc-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      text-align: right;
+      transition: color 0.3s;
+    }
+    .svc-row:hover .svc-tag { color: var(--gold); }
+
+    /* ============================================================
+       PROJECTS — EDITORIAL MOSAIC
+    ============================================================ */
+    #projects {
+      padding: 140px 0;
+    }
+    .proj-head {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 80px;
+      margin-bottom: 72px;
     }
-    .projects-header h2 {
+    .proj-head h2 {
       font-family: var(--serif);
-      font-size: clamp(48px, 5vw, 72px);
+      font-size: clamp(44px, 5vw, 68px);
       font-weight: 300;
       line-height: 1;
     }
-    .projects-header h2 em { font-style: italic; }
-    .projects-count {
+    .proj-head h2 em { font-style: italic; }
+    .proj-head-num {
       font-family: var(--serif);
-      font-size: 80px;
+      font-size: 72px;
       font-weight: 300;
-      color: var(--faint);
+      color: rgba(12,11,9,0.07);
       line-height: 1;
     }
 
-    .project-feature {
-      max-width: var(--max);
-      margin: 0 auto 6px;
-      padding: 0 48px;
+    .proj-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .proj-row {
       display: grid;
-      gap: 6px;
+      gap: 5px;
     }
-    .pf-1 { grid-template-columns: 7fr 3fr; }
-    .pf-2 { grid-template-columns: 3fr 7fr; }
-    .pf-3 { grid-template-columns: 1fr; max-width: 100%; padding: 0; }
+    .proj-row-a { grid-template-columns: 3fr 2fr; }
+    .proj-row-b { grid-template-columns: 2fr 3fr; }
 
-    .project-img {
+    .proj-item {
       position: relative;
       overflow: hidden;
     }
-    .project-img img {
+    .proj-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .project-img:hover img { transform: scale(1.04); }
+    .proj-item:hover img { transform: scale(1.05); }
+    .proj-h { aspect-ratio: 4/3; }
+    .proj-t { aspect-ratio: 2/3; }
+    .proj-wide { aspect-ratio: 21/9; }
 
-    .pf-1 .project-img:first-child { aspect-ratio: 4/3; }
-    .pf-1 .project-img:last-child { aspect-ratio: auto; }
-    .pf-2 .project-img:first-child { aspect-ratio: auto; }
-    .pf-2 .project-img:last-child { aspect-ratio: 4/3; }
-    .pf-3 .project-img { aspect-ratio: 21/8; }
-
-    .project-meta {
+    .proj-caption {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      padding: 28px 32px;
-      background: linear-gradient(to top, rgba(13,11,9,0.85) 0%, transparent 100%);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      padding: 28px 28px 24px;
+      background: linear-gradient(to top, rgba(12,11,9,0.88) 0%, transparent 100%);
+      transform: translateY(6px);
       opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
-    .project-img:hover .project-meta {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .project-title {
+    .proj-item:hover .proj-caption { opacity: 1; transform: translateY(0); }
+    .proj-caption-title {
       font-family: var(--serif);
       font-size: 22px;
       font-weight: 300;
-      color: var(--warm-white);
+      color: var(--white);
+      margin-bottom: 4px;
     }
-    .project-type {
+    .proj-caption-type {
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--gold);
     }
 
-    /* ======================================================
-       ABOUT — MASCOT + EDITORIAL
-    ====================================================== */
+    /* ============================================================
+       ABOUT
+    ============================================================ */
     #about {
-      background: var(--parchment);
-      padding: 0;
+      background: var(--cream);
       overflow: hidden;
     }
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      min-height: 720px;
+      min-height: 700px;
     }
-    .about-img-col {
-      position: relative;
-      background: var(--ink-2);
+    .about-visual {
+      background: var(--black-2);
       display: flex;
       align-items: flex-end;
       justify-content: center;
       overflow: hidden;
+      position: relative;
     }
-    .about-img-col img {
-      width: 88%;
-      max-width: 460px;
+    .about-visual img {
+      width: 86%;
+      max-width: 440px;
       object-fit: contain;
-      display: block;
       position: relative;
       z-index: 2;
-      filter: drop-shadow(0 -20px 60px rgba(13,11,9,0.4));
     }
-    .about-text-col {
-      padding: 100px 80px 100px 72px;
+    .about-text {
+      padding: 96px clamp(32px, 6vw, 88px) 96px clamp(32px, 5vw, 72px);
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
-    .label {
-      font-family: var(--sans);
+    .eyebrow {
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 24px;
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-bottom: 28px;
     }
-    .label::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .about-headline {
+    .eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+
+    .about-text h2 {
       font-family: var(--serif);
-      font-size: clamp(38px, 4vw, 60px);
+      font-size: clamp(36px, 4vw, 56px);
       font-weight: 300;
-      line-height: 1.1;
-      margin-bottom: 36px;
-      letter-spacing: -0.01em;
+      line-height: 1.12;
+      margin-bottom: 32px;
     }
-    .about-headline em { font-style: italic; }
-    .about-body {
+    .about-text h2 em { font-style: italic; }
+    .about-text p {
       font-size: 15px;
-      color: var(--mid);
+      color: var(--gray);
       line-height: 1.85;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
-    .about-stats {
+    .about-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--rule);
+      margin: 44px 0;
+    }
+    .about-nums {
       display: flex;
-      gap: 48px;
-      margin: 48px 0;
-      padding-top: 48px;
-      border-top: 1px solid var(--faint);
+      gap: 52px;
     }
-    .about-stat-num {
+    .about-num-val {
       font-family: var(--serif);
-      font-size: 52px;
+      font-size: 48px;
       font-weight: 300;
+      color: var(--black);
       line-height: 1;
-      color: var(--ink);
     }
-    .about-stat-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
+    .about-num-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--mid);
-      margin-top: 6px;
+      color: var(--gray-lt);
+      margin-top: 8px;
     }
     .about-sig {
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--rule);
+    }
+    .sig-name {
       font-family: var(--serif);
-      font-size: 36px;
+      font-size: 34px;
       font-style: italic;
       font-weight: 300;
-      color: var(--ink);
-      margin-top: 40px;
-      padding-top: 40px;
-      border-top: 1px solid var(--faint);
+      color: var(--black);
     }
-    .about-sig-title {
+    .sig-role {
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--mid);
+      color: var(--gray-lt);
       margin-top: 6px;
     }
 
-    /* ======================================================
-       PROCESS — VERTICAL LIST
-    ====================================================== */
+    /* ============================================================
+       PROCESS
+    ============================================================ */
     #process {
-      padding: 160px 0;
+      padding: 140px 0;
+      border-top: 1px solid var(--rule);
     }
-    .process-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 48px;
+    .process-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 120px;
+      gap: 100px;
       align-items: start;
     }
     .process-left h2 {
       font-family: var(--serif);
-      font-size: clamp(48px, 5vw, 72px);
+      font-size: clamp(40px, 4.5vw, 64px);
       font-weight: 300;
       line-height: 1.05;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .process-left h2 em { font-style: italic; }
     .process-left p {
       font-size: 15px;
-      color: var(--mid);
+      color: var(--gray);
       line-height: 1.8;
-      max-width: 380px;
+      max-width: 360px;
     }
-    .process-steps { display: flex; flex-direction: column; }
-    .process-step {
+    .process-list { display: flex; flex-direction: column; }
+    .proc-item {
       display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 32px;
-      padding: 40px 0;
-      border-bottom: 1px solid var(--faint);
-      cursor: none;
+      grid-template-columns: 56px 1fr;
+      gap: 28px;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--rule);
+      transition: padding-left 0.3s ease;
     }
-    .process-step:first-child { border-top: 1px solid var(--faint); }
-    .process-step-num {
+    .proc-item:first-child { border-top: 1px solid var(--rule); }
+    .proc-item:hover { padding-left: 8px; }
+    .proc-n {
       font-family: var(--serif);
-      font-size: 48px;
+      font-size: 44px;
       font-weight: 300;
-      color: rgba(13,11,9,0.1);
+      color: rgba(12,11,9,0.1);
       line-height: 1;
       transition: color 0.3s;
     }
-    .process-step:hover .process-step-num { color: var(--gold); }
-    .process-step-content {}
-    .process-step-title {
+    .proc-item:hover .proc-n { color: var(--gold); }
+    .proc-title {
       font-family: var(--serif);
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 400;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       transition: color 0.3s;
     }
-    .process-step:hover .process-step-title { color: var(--gold); }
-    .process-step-desc {
+    .proc-item:hover .proc-title { color: var(--gold); }
+    .proc-desc {
       font-size: 14px;
-      color: var(--mid);
+      color: var(--gray);
       line-height: 1.75;
     }
 
-    /* ======================================================
-       TESTIMONIAL — SINGLE PULL QUOTE
-    ====================================================== */
+    /* ============================================================
+       TESTIMONIAL
+    ============================================================ */
     #testimonial {
-      background: var(--ink);
-      padding: 160px 0;
-      overflow: hidden;
+      background: var(--black);
+      padding: 140px 0;
       position: relative;
+      overflow: hidden;
     }
     #testimonial::before {
       content: '\201C';
-      position: absolute;
-      top: -60px;
-      left: 48px;
       font-family: var(--serif);
-      font-size: 400px;
+      font-size: 480px;
       font-weight: 300;
-      color: rgba(184,154,69,0.06);
+      color: rgba(184,150,69,0.05);
+      position: absolute;
+      top: -80px;
+      left: 40px;
       line-height: 1;
       pointer-events: none;
     }
-    .testimonial-inner {
-      max-width: 960px;
+    .testi-inner {
+      max-width: 920px;
       margin: 0 auto;
-      padding: 0 48px;
+      padding: 0 var(--pad);
       position: relative;
       z-index: 2;
     }
-    .testimonial-quote {
+    .testi-quote {
       font-family: var(--serif);
-      font-size: clamp(26px, 3.5vw, 44px);
+      font-size: clamp(24px, 3.2vw, 42px);
       font-weight: 300;
       font-style: italic;
-      color: var(--warm-white);
-      line-height: 1.4;
-      margin-bottom: 56px;
-      opacity: 1;
+      color: var(--white);
+      line-height: 1.45;
+      margin-bottom: 52px;
       transition: opacity 0.4s ease;
     }
-    .testimonial-quote.fade { opacity: 0; }
-    .testimonial-footer {
+    .testi-quote.fade { opacity: 0; }
+    .testi-foot {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .testimonial-author {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .testimonial-name {
-      font-family: var(--sans);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+    .testi-author-name {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--warm-white);
+      color: rgba(253,250,245,0.5);
+      margin-bottom: 10px;
     }
-    .testimonial-stars {
-      display: flex;
-      gap: 4px;
-    }
-    .star { color: var(--gold); font-size: 12px; }
-    .testimonial-nav {
-      display: flex;
-      gap: 16px;
-    }
+    .stars { display: flex; gap: 4px; }
+    .star { color: var(--gold); font-size: 13px; }
+    .testi-btns { display: flex; gap: 12px; }
     .t-btn {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border: 1px solid rgba(255,255,255,0.12);
       background: none;
-      color: rgba(255,255,255,0.5);
-      font-size: 18px;
+      color: rgba(255,255,255,0.4);
+      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: none;
+      cursor: pointer;
       transition: border-color 0.2s, color 0.2s;
     }
-    .t-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
+    .t-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-    /* ======================================================
+    /* ============================================================
        CONTACT
-    ====================================================== */
+    ============================================================ */
     #contact {
-      padding: 160px 0;
-      background: var(--warm-white);
+      padding: 140px 0;
     }
-    .contact-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 48px;
+    .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 120px;
+      gap: 100px;
       align-items: start;
     }
-    .contact-left {}
     .contact-left h2 {
       font-family: var(--serif);
-      font-size: clamp(48px, 5vw, 80px);
+      font-size: clamp(44px, 5vw, 76px);
       font-weight: 300;
       line-height: 0.95;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
     .contact-left h2 em { font-style: italic; }
     .contact-left p {
       font-size: 15px;
-      color: var(--mid);
-      line-height: 1.8;
-      margin-bottom: 56px;
-      max-width: 400px;
+      color: var(--gray);
+      line-height: 1.85;
+      max-width: 380px;
+      margin-bottom: 52px;
     }
-    .contact-details {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-    .contact-item {}
-    .contact-item-label {
+    .contact-details { display: flex; flex-direction: column; gap: 28px; }
+    .cd-label {
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
-    .contact-item-val {
+    .cd-val {
       font-family: var(--serif);
       font-size: 20px;
-      font-weight: 400;
-      color: var(--ink);
+      font-weight: 300;
+      color: var(--black);
     }
 
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .field {
+    /* floating-label form */
+    .cform { display: flex; flex-direction: column; }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+    .f-group {
       position: relative;
-      border-bottom: 1px solid var(--faint);
+      border-bottom: 1px solid rgba(12,11,9,0.15);
+      margin-bottom: 0;
     }
-    .field label {
-      position: absolute;
-      top: 20px;
-      left: 0;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--mid);
-      pointer-events: none;
-      transition: top 0.2s, font-size 0.2s, color 0.2s;
-    }
-    .field input:focus ~ label,
-    .field input:not(:placeholder-shown) ~ label,
-    .field textarea:focus ~ label,
-    .field textarea:not(:placeholder-shown) ~ label,
-    .field select:focus ~ label,
-    .field select:valid ~ label {
-      top: 4px;
-      font-size: 8.5px;
-      color: var(--gold);
-    }
-    .field input,
-    .field textarea,
-    .field select {
+    .f-group + .f-group { border-left: none; }
+    .f-input, .f-select, .f-textarea {
       width: 100%;
       background: none;
       border: none;
       outline: none;
-      padding: 28px 0 14px;
+      padding: 28px 0 12px;
       font-family: var(--serif);
       font-size: 18px;
-      font-weight: 400;
-      color: var(--ink);
+      font-weight: 300;
+      color: var(--black);
       appearance: none;
       -webkit-appearance: none;
     }
-    .field input::placeholder,
-    .field textarea::placeholder { color: transparent; }
-    .field textarea { resize: none; min-height: 100px; }
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0 32px;
+    .f-input::placeholder,
+    .f-textarea::placeholder { color: transparent; }
+    .f-textarea { resize: none; min-height: 96px; }
+    .f-label {
+      position: absolute;
+      top: 20px; left: 0;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray-lt);
+      pointer-events: none;
+      transition: top 0.2s, color 0.2s, font-size 0.2s;
+    }
+    .f-input:focus ~ .f-label,
+    .f-input:not(:placeholder-shown) ~ .f-label,
+    .f-textarea:focus ~ .f-label,
+    .f-textarea:not(:placeholder-shown) ~ .f-label,
+    .f-select:focus ~ .f-label,
+    .f-select:valid ~ .f-label {
+      top: 5px;
+      font-size: 8.5px;
+      color: var(--gold);
     }
     .form-submit-row {
       display: flex;
       justify-content: flex-end;
-      padding-top: 48px;
+      margin-top: 44px;
     }
-    .btn-submit {
+    .btn-send {
       display: inline-flex;
       align-items: center;
-      gap: 20px;
-      font-family: var(--sans);
+      gap: 18px;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--ink);
+      color: var(--black);
       background: none;
       border: none;
-      cursor: none;
+      cursor: pointer;
       transition: gap 0.3s;
     }
-    .btn-submit:hover { gap: 30px; }
-    .submit-line {
-      width: 56px;
-      height: 1px;
-      background: var(--ink);
+    .btn-send:hover { gap: 28px; }
+    .send-line {
       position: relative;
+      width: 52px; height: 1px;
+      background: var(--black);
       transition: width 0.3s;
     }
-    .submit-line::after {
+    .send-line::after {
       content: '';
       position: absolute;
-      right: 0; top: -3px;
-      width: 7px; height: 7px;
-      border-right: 1px solid var(--ink);
-      border-bottom: 1px solid var(--ink);
-      transform: rotate(-45deg);
+      right: -1px; top: -3.5px;
+      width: 8px; height: 8px;
+      border-top: 1px solid var(--black);
+      border-right: 1px solid var(--black);
+      transform: rotate(45deg);
     }
-    .btn-submit:hover .submit-line { width: 80px; }
-    .form-success {
+    .btn-send:hover .send-line { width: 72px; }
+    .form-ok {
       display: none;
+      margin-top: 32px;
       font-family: var(--serif);
       font-size: 20px;
-      color: var(--gold);
-      margin-top: 32px;
       font-style: italic;
+      color: var(--gold);
     }
 
-    /* ======================================================
+    /* ============================================================
        FOOTER
-    ====================================================== */
+    ============================================================ */
     footer {
-      background: var(--ink);
-      padding: 72px 0 40px;
+      background: var(--black);
+      padding: 72px 0 36px;
     }
-    .footer-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 48px;
-    }
-    .footer-top {
+    .footer-main {
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: end;
+      grid-template-columns: 220px 1fr 1fr auto;
       gap: 48px;
       padding-bottom: 48px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
       margin-bottom: 32px;
+      align-items: start;
     }
-    .footer-logo img {
-      width: 100%;
-      max-width: 220px;
-      height: auto;
-    }
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-    .footer-links a {
-      font-family: var(--sans);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(253,250,245,0.3);
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--gold); }
-    .footer-right {
-      text-align: right;
-    }
-    .footer-right-label {
+    .footer-logo img { width: 100%; height: auto; }
+    .footer-col h4 {
       font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
+      font-weight: 500;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(253,250,245,0.2);
-      margin-bottom: 12px;
+      color: var(--gold);
+      margin-bottom: 20px;
     }
-    .footer-socials {
-      display: flex;
-      justify-content: flex-end;
-      gap: 24px;
-    }
-    .footer-socials a {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+    .footer-col ul { display: flex; flex-direction: column; gap: 12px; }
+    .footer-col ul a {
+      font-size: 13px;
       color: rgba(253,250,245,0.35);
       transition: color 0.2s;
     }
-    .footer-socials a:hover { color: var(--gold); }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-tagline {
+      font-family: var(--serif);
+      font-size: 11px;
+      font-style: italic;
+      color: rgba(253,250,245,0.2);
+      margin-top: 16px;
+    }
     .footer-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .footer-copy {
-      font-size: 12px;
-      color: rgba(255,255,255,0.18);
-    }
-    .footer-legal {
+    .footer-copy, .footer-credit {
       font-size: 12px;
       color: rgba(255,255,255,0.18);
     }
 
-    /* ======================================================
-       ANIMATIONS & SCROLL REVEAL
-    ====================================================== */
-    .sr {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .sr.in { opacity: 1; transform: translateY(0); }
-    .sr-d1 { transition-delay: 0.1s; }
-    .sr-d2 { transition-delay: 0.2s; }
-    .sr-d3 { transition-delay: 0.3s; }
-    .sr-d4 { transition-delay: 0.4s; }
-
-    /* ======================================================
+    /* ============================================================
        RESPONSIVE
-    ====================================================== */
+    ============================================================ */
     @media (max-width: 1024px) {
-      :root { --max: 100%; }
-      #hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      .hero-left { padding: 120px 36px 80px; }
-      .statement-inner { grid-template-columns: 1fr; gap: 40px; }
-      .statement-aside { max-width: 480px; }
+      .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+      .intro-aside { max-width: 540px; }
       .about-grid { grid-template-columns: 1fr; }
-      .about-img-col { min-height: 480px; }
-      .about-text-col { padding: 72px 36px; }
-      .process-inner { grid-template-columns: 1fr; gap: 64px; }
-      .contact-inner { grid-template-columns: 1fr; gap: 72px; }
-      .footer-top { grid-template-columns: 1fr 1fr; }
-      .footer-links { display: none; }
+      .about-visual { min-height: 440px; }
+      .process-grid { grid-template-columns: 1fr; gap: 60px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 64px; }
+      .footer-main { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 768px) {
-      body { cursor: auto; }
-      .cursor-dot, .cursor-ring { display: none; }
-      .hamburger { display: flex; }
-      .nav-right { display: none; }
-      .nav-inner { padding: 0 24px; }
-      .hero-left { padding: 100px 24px 64px; }
-      #statement, #projects, #process, #testimonial, #contact { padding: 100px 0; }
-      .projects-header, .process-inner, .testimonial-inner, .contact-inner,
-      .statement-inner, .services-top { padding: 0 24px; }
-      .project-feature { padding: 0 24px; }
-      .pf-1, .pf-2 { grid-template-columns: 1fr; }
-      .pf-1 .project-img:first-child,
-      .pf-2 .project-img:last-child { aspect-ratio: 4/3; }
-      .pf-1 .project-img:last-child,
-      .pf-2 .project-img:first-child { display: none; }
-      .pf-3 .project-img { aspect-ratio: 4/3; }
-      .service-row-inner { padding: 0 24px; grid-template-columns: 48px 1fr; height: 80px; }
-      .service-desc, .service-tag { display: none; }
-      .service-row:hover .service-row-inner { height: 80px; }
-      .about-img-col { min-height: 360px; }
-      .footer-inner { padding: 0 24px; }
-      .footer-top { grid-template-columns: 1fr; gap: 32px; }
-      .footer-right { text-align: left; }
-      .footer-socials { justify-content: flex-start; }
-      .field-row { grid-template-columns: 1fr; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 120px 24px 72px; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .services-head { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .services-head-note { text-align: left; max-width: 100%; }
+      .svc-inner { grid-template-columns: 48px 1fr; height: 80px; }
+      .svc-row:hover .svc-inner { height: 80px; }
+      .svc-desc, .svc-tag { display: none; }
+      .proj-row-a, .proj-row-b { grid-template-columns: 1fr; }
+      .proj-t { display: none; }
+      .proj-h { aspect-ratio: 4/3; }
+      .footer-main { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<!-- CUSTOM CURSOR -->
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
 <!-- MOBILE NAV -->
-<div class="mob-nav" id="mobNav">
-  <button class="mob-nav-close" onclick="closeMob()">&times;</button>
-  <a href="#statement" onclick="closeMob()">About</a>
+<div class="mob" id="mob">
+  <button class="mob-close" onclick="closeMob()">&times;</button>
+  <a href="#intro" onclick="closeMob()">About</a>
   <a href="#services" onclick="closeMob()">Services</a>
   <a href="#projects" onclick="closeMob()">Projects</a>
   <a href="#process" onclick="closeMob()">Process</a>
@@ -1202,18 +1004,16 @@
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo">
-      <img src="logo.png" alt="BHR Custom Homes" />
-    </a>
-    <div class="nav-right">
-      <a href="#statement" class="nav-link">About</a>
+  <div class="nav-wrap">
+    <a href="#hero" class="nav-logo"><img src="logo.png" alt="BHR Custom Homes" /></a>
+    <div class="nav-links">
+      <a href="#intro" class="nav-link">About</a>
       <a href="#services" class="nav-link">Services</a>
       <a href="#projects" class="nav-link">Projects</a>
       <a href="#process" class="nav-link">Process</a>
-      <a href="#contact" class="nav-cta-link">Start a Project &rarr;</a>
+      <a href="#contact" class="nav-start">Start a Project</a>
     </div>
-    <div class="hamburger" onclick="openMob()">
+    <div class="nav-burger" onclick="openMob()">
       <span></span><span></span><span></span>
     </div>
   </div>
@@ -1222,149 +1022,147 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">
-      <div class="hero-eyebrow-line"></div>
-      <span class="hero-eyebrow-text">Licensed General Contractor</span>
+    <div class="hero-tag">
+      <span class="hero-tag-line"></span>
+      Licensed General Contractor
     </div>
-    <h1 class="hero-headline">
-      Built<br>to a<br><em>Higher</em><br>Standard.
+    <h1 class="hero-h1">
+      Built<br>to a<br><em>Higher<br>Standard.</em>
     </h1>
-    <div class="hero-sub-row">
-      <p class="hero-sub">Custom home builds, luxury remodels, and additions crafted without compromise.</p>
-      <a href="#contact" class="hero-cta">
+    <div class="hero-bottom">
+      <p class="hero-desc">Custom home builds, luxury remodels, and additions crafted without compromise.</p>
+      <a href="#contact" class="btn-arrow">
         Start a Project
-        <span class="hero-cta-arrow"></span>
+        <span class="arrow-line"></span>
       </a>
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-right-img" id="heroBg"></div>
-    <div class="hero-right-overlay"></div>
-    <div class="hero-counter">
-      <div class="hero-counter-num">20+</div>
-      <div class="hero-counter-label">Years Building</div>
+    <div class="hero-right-photo"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-n">20+</div>
+      <div class="hero-stat-l">Years Building</div>
     </div>
-  </div>
-  <div class="hero-scroll-indicator">
-    <div class="scroll-bar"></div>
-    <span>Scroll</span>
   </div>
 </section>
 
-<!-- STATEMENT -->
-<section id="statement">
-  <div class="statement-inner">
-    <p class="statement-text sr">
-      We don't build houses.<br>
-      We build the homes our clients<br>
-      spend the <em>rest of their lives in.</em>
-    </p>
-    <div class="statement-aside sr sr-d2">
-      <p>BHR Custom Homes grew out of 20 years of hands-on building experience. Today we are a licensed general contractor focused exclusively on projects that demand real craftsmanship — custom builds, full-scale remodels, and additions built to your exact standard.</p>
-      <a href="#about" class="link-underline">Our Story &rarr;</a>
+<!-- INTRO -->
+<section id="intro">
+  <div class="wrap">
+    <div class="intro-grid">
+      <p class="intro-headline sr">
+        We don't build houses.<br>
+        We build the homes our clients<br>
+        spend the <em>rest of their lives in.</em>
+      </p>
+      <div class="intro-aside sr sr-d2">
+        <p>BHR Custom Homes grew out of 20 years of hands-on experience. Today we are a licensed general contractor focused exclusively on custom builds, full-scale remodels, and additions that demand real craftsmanship.</p>
+        <a href="#about" class="link-line">Our Story &rarr;</a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- SERVICES -->
 <section id="services">
-  <div class="services-top">
-    <h2 class="sr">What We<br><em>Build</em></h2>
-    <p class="services-top-right sr sr-d2">Every project starts with listening. Every project ends with something built to outlast you.</p>
+  <div class="services-head">
+    <h2 class="sr">What We <em>Build</em></h2>
+    <p class="services-head-note sr sr-d2">Every project starts with listening and ends with something built to outlast you.</p>
   </div>
 
-  <div class="service-row sr">
-    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80')"></div>
-    <div class="service-bg-overlay"></div>
-    <div class="service-row-inner">
-      <span class="service-num">01</span>
-      <span class="service-name">Custom Home Builds</span>
-      <p class="service-desc">Ground-up construction built to your exact specifications. We handle every phase from foundation to final finish with no shortcuts and no surprises.</p>
-      <span class="service-tag">New Construction</span>
+  <div class="svc-row sr">
+    <div class="svc-photo" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80')"></div>
+    <div class="svc-photo-dim"></div>
+    <div class="svc-inner">
+      <span class="svc-n">01</span>
+      <span class="svc-name">Custom Home Builds</span>
+      <p class="svc-desc">Ground-up construction built to your exact specifications. Every phase from foundation to final finish, no shortcuts, no surprises.</p>
+      <span class="svc-tag">New Construction</span>
     </div>
   </div>
 
-  <div class="service-row sr">
-    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80')"></div>
-    <div class="service-bg-overlay"></div>
-    <div class="service-row-inner">
-      <span class="service-num">02</span>
-      <span class="service-name">Luxury Remodels</span>
-      <p class="service-desc">Kitchen, bathroom, basement, and whole-home remodels that add real value. We transform how you experience your space every single day.</p>
-      <span class="service-tag">Interior</span>
+  <div class="svc-row sr">
+    <div class="svc-photo" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1400&q=80')"></div>
+    <div class="svc-photo-dim"></div>
+    <div class="svc-inner">
+      <span class="svc-n">02</span>
+      <span class="svc-name">Luxury Remodels</span>
+      <p class="svc-desc">Kitchen, bathroom, basement, and whole-home remodels that transform how you live. Built to elevate every day, not just the day it's finished.</p>
+      <span class="svc-tag">Interior</span>
     </div>
   </div>
 
-  <div class="service-row sr">
-    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=80')"></div>
-    <div class="service-bg-overlay"></div>
-    <div class="service-row-inner">
-      <span class="service-num">03</span>
-      <span class="service-name">Home Additions</span>
-      <p class="service-desc">Expand your footprint without losing your home's character. Additions that feel like they were always part of the plan.</p>
-      <span class="service-tag">Expansion</span>
+  <div class="svc-row sr">
+    <div class="svc-photo" style="background-image:url('https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1400&q=80')"></div>
+    <div class="svc-photo-dim"></div>
+    <div class="svc-inner">
+      <span class="svc-n">03</span>
+      <span class="svc-name">Home Additions</span>
+      <p class="svc-desc">Expand your footprint without losing your home's character. Additions that feel like they were always part of the original design.</p>
+      <span class="svc-tag">Expansion</span>
     </div>
   </div>
 
-  <div class="service-row sr">
-    <div class="service-bg" style="background-image:url('https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=80')"></div>
-    <div class="service-bg-overlay"></div>
-    <div class="service-row-inner">
-      <span class="service-num">04</span>
-      <span class="service-name">Commercial Renovations</span>
-      <p class="service-desc">Tenant improvements and commercial builds executed on schedule and on budget. Your business stays moving while we build.</p>
-      <span class="service-tag">Commercial</span>
+  <div class="svc-row sr">
+    <div class="svc-photo" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80')"></div>
+    <div class="svc-photo-dim"></div>
+    <div class="svc-inner">
+      <span class="svc-n">04</span>
+      <span class="svc-name">Commercial Renovations</span>
+      <p class="svc-desc">Tenant improvements and commercial builds executed on schedule, on budget. Your business keeps moving while we build.</p>
+      <span class="svc-tag">Commercial</span>
     </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects">
-  <div class="projects-header">
-    <h2 class="sr">Featured <em>Work</em></h2>
-    <span class="projects-count sr sr-d2">05</span>
-  </div>
-
-  <div class="project-feature pf-1 sr">
-    <div class="project-img">
-      <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=85" alt="Custom Home Build" loading="lazy" />
-      <div class="project-meta">
-        <span class="project-title">Modern Farmhouse Build</span>
-        <span class="project-type">Custom Build</span>
-      </div>
+  <div class="wrap">
+    <div class="proj-head">
+      <h2 class="sr">Featured <em>Work</em></h2>
+      <span class="proj-head-num sr sr-d1">05</span>
     </div>
-    <div class="project-img">
-      <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=85" alt="Master Bath Remodel" loading="lazy" />
-      <div class="project-meta">
-        <span class="project-title">Master Bath — Spa Conversion</span>
-        <span class="project-type">Bathroom Remodel</span>
+    <div class="proj-layout">
+      <div class="proj-row proj-row-a sr">
+        <div class="proj-item proj-h">
+          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=85" alt="Modern Farmhouse Build" loading="lazy" />
+          <div class="proj-caption">
+            <div class="proj-caption-title">Modern Farmhouse Build</div>
+            <div class="proj-caption-type">Custom Build</div>
+          </div>
+        </div>
+        <div class="proj-item proj-t">
+          <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=700&q=85" alt="Master Bath" loading="lazy" />
+          <div class="proj-caption">
+            <div class="proj-caption-title">Master Bath — Spa Conversion</div>
+            <div class="proj-caption-type">Bathroom Remodel</div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <div class="project-feature pf-2 sr" style="margin-top:6px;">
-    <div class="project-img">
-      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85" alt="Kitchen Remodel" loading="lazy" />
-      <div class="project-meta">
-        <span class="project-title">Full Kitchen Gut & Remodel</span>
-        <span class="project-type">Kitchen</span>
+      <div class="proj-row proj-row-b sr sr-d1">
+        <div class="proj-item proj-t">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=85" alt="Kitchen Remodel" loading="lazy" />
+          <div class="proj-caption">
+            <div class="proj-caption-title">Full Kitchen Gut & Remodel</div>
+            <div class="proj-caption-type">Kitchen</div>
+          </div>
+        </div>
+        <div class="proj-item proj-h">
+          <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=85" alt="Home Addition" loading="lazy" />
+          <div class="proj-caption">
+            <div class="proj-caption-title">Second Story Addition</div>
+            <div class="proj-caption-type">Addition</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="project-img">
-      <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=85" alt="Home Addition" loading="lazy" />
-      <div class="project-meta">
-        <span class="project-title">Second Story Addition</span>
-        <span class="project-type">Addition</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="project-feature pf-3 sr" style="margin-top:6px;">
-    <div class="project-img">
-      <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=1800&q=85" alt="Luxury Exterior" loading="lazy" />
-      <div class="project-meta">
-        <span class="project-title">Full Basement Build-Out</span>
-        <span class="project-type">Interior</span>
+      <div class="proj-row sr sr-d2">
+        <div class="proj-item proj-wide">
+          <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=1800&q=85" alt="Luxury Exterior" loading="lazy" />
+          <div class="proj-caption">
+            <div class="proj-caption-title">Full Basement Build-Out</div>
+            <div class="proj-caption-type">Interior</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1373,70 +1171,75 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
-    <div class="about-img-col sr">
+    <div class="about-visual sr">
       <img src="mascot.jpg" alt="Jeff Wyner — Owner, BHR Custom Homes" />
     </div>
-    <div class="about-text-col">
-      <div class="label sr">About BHR</div>
-      <h2 class="about-headline sr sr-d1">
+    <div class="about-text">
+      <div class="eyebrow sr">About BHR</div>
+      <h2 class="sr sr-d1">
         Craftsmanship<br>you can see.<br><em>Quality you'll<br>live in.</em>
       </h2>
-      <p class="about-body sr sr-d2">BHR Custom Homes started as Bright Home Repair — and grew into something bigger because our clients kept coming back with bigger visions. Today we are a licensed general contractor focused on custom builds, full-scale luxury remodels, and additions that change how you experience your home.</p>
-      <p class="about-body sr sr-d2">Owner Jeff Wyner brings over 20 years of hands-on experience to every project. That means no corners cut, no surprises at the finish line, and a final product you are proud to live in.</p>
-      <div class="about-stats sr sr-d3">
+      <p class="sr sr-d2">BHR Custom Homes started as Bright Home Repair and grew into something bigger — because our clients kept coming back with bigger visions. Today we are a licensed general contractor focused on custom builds, full-scale luxury remodels, and additions that change how you experience your home.</p>
+      <p class="sr sr-d2">Owner Jeff Wyner brings over 20 years of hands-on experience to every project. No corners cut, no surprises at the finish line, and a final product you are proud to live in.</p>
+      <div class="about-divider sr sr-d3"></div>
+      <div class="about-nums sr sr-d3">
         <div>
-          <div class="about-stat-num">20+</div>
-          <div class="about-stat-label">Years Experience</div>
+          <div class="about-num-val">20+</div>
+          <div class="about-num-label">Years Experience</div>
         </div>
         <div>
-          <div class="about-stat-num">200+</div>
-          <div class="about-stat-label">Projects Built</div>
+          <div class="about-num-val">200+</div>
+          <div class="about-num-label">Projects Completed</div>
         </div>
         <div>
-          <div class="about-stat-num">100%</div>
-          <div class="about-stat-label">Licensed & Insured</div>
+          <div class="about-num-val">100%</div>
+          <div class="about-num-label">Licensed & Insured</div>
         </div>
       </div>
-      <div class="about-sig sr sr-d4">Jeff Wyner</div>
-      <div class="about-sig-title sr sr-d4">Owner & General Contractor</div>
+      <div class="about-sig sr sr-d4">
+        <div class="sig-name">Jeff Wyner</div>
+        <div class="sig-role">Owner & General Contractor</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- PROCESS -->
 <section id="process">
-  <div class="process-inner">
-    <div class="process-left">
-      <h2 class="sr">A process built<br>for your <em>peace<br>of mind.</em></h2>
-      <p class="sr sr-d1">We map out every detail before a single tool touches your home. No guesswork. No delays. No surprises.</p>
-    </div>
-    <div class="process-steps">
-      <div class="process-step sr">
-        <div class="process-step-num">1</div>
-        <div class="process-step-content">
-          <div class="process-step-title">Consultation</div>
-          <p class="process-step-desc">We sit down and listen. You share your vision, timeline, and budget. No pressure — just a real conversation about what you want to build.</p>
-        </div>
+  <div class="wrap">
+    <div class="process-grid">
+      <div class="process-left">
+        <h2 class="sr">A process built<br>for your <em>peace<br>of mind.</em></h2>
+        <p class="sr sr-d1">We map out every detail before a single tool touches your home. No guesswork. No delays. No surprises on the other end.</p>
       </div>
-      <div class="process-step sr sr-d1">
-        <div class="process-step-num">2</div>
-        <div class="process-step-content">
-          <div class="process-step-title">Design & Planning</div>
-          <p class="process-step-desc">We map out the full scope, select materials, and lock in a detailed plan before anything starts. Every decision is made before we break ground.</p>
+      <div class="process-list">
+        <div class="proc-item sr">
+          <div class="proc-n">1</div>
+          <div>
+            <div class="proc-title">Consultation</div>
+            <p class="proc-desc">We sit down and listen. You share your vision, your timeline, and your budget. No pressure — just a real conversation about what you want built.</p>
+          </div>
         </div>
-      </div>
-      <div class="process-step sr sr-d2">
-        <div class="process-step-num">3</div>
-        <div class="process-step-content">
-          <div class="process-step-title">Build Phase</div>
-          <p class="process-step-desc">Skilled crews, scheduled milestones, and weekly updates. We work efficiently, we communicate constantly, and we clean up behind ourselves.</p>
+        <div class="proc-item sr sr-d1">
+          <div class="proc-n">2</div>
+          <div>
+            <div class="proc-title">Design & Planning</div>
+            <p class="proc-desc">Full scope, material selections, and a detailed project plan locked in before anything starts. Every decision is made before we break ground.</p>
+          </div>
         </div>
-      </div>
-      <div class="process-step sr sr-d3">
-        <div class="process-step-num">4</div>
-        <div class="process-step-content">
-          <div class="process-step-title">Final Walkthrough</div>
-          <p class="process-step-desc">We walk every inch of the project with you before we call it done. Nothing leaves our hands until it meets your standard.</p>
+        <div class="proc-item sr sr-d2">
+          <div class="proc-n">3</div>
+          <div>
+            <div class="proc-title">Build Phase</div>
+            <p class="proc-desc">Skilled crews, scheduled milestones, and weekly updates. We work efficiently, communicate constantly, and clean up behind ourselves every day.</p>
+          </div>
+        </div>
+        <div class="proc-item sr sr-d3">
+          <div class="proc-n">4</div>
+          <div>
+            <div class="proc-title">Final Walkthrough</div>
+            <p class="proc-desc">We walk every inch of the project with you before we call it done. Nothing leaves our hands until it meets your standard — not ours, yours.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1445,18 +1248,18 @@
 
 <!-- TESTIMONIAL -->
 <section id="testimonial">
-  <div class="testimonial-inner">
-    <div class="testimonial-quote sr" id="tQuote">
+  <div class="testi-inner">
+    <div class="testi-quote sr" id="tQ">
       "Jeff and his team completely transformed our master bathroom. The attention to detail was unlike anything I expected. We had a strict timeline and they beat it by three days."
     </div>
-    <div class="testimonial-footer">
-      <div class="testimonial-author sr sr-d1">
-        <div class="testimonial-name" id="tName">Sarah M. — Homeowner</div>
-        <div class="testimonial-stars">
+    <div class="testi-foot">
+      <div class="sr sr-d1">
+        <div class="testi-author-name" id="tN">Sarah M. — Homeowner</div>
+        <div class="stars">
           <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
         </div>
       </div>
-      <div class="testimonial-nav sr sr-d2">
+      <div class="testi-btns sr sr-d2">
         <button class="t-btn" onclick="prevT()">&#8592;</button>
         <button class="t-btn" onclick="nextT()">&#8594;</button>
       </div>
@@ -1466,211 +1269,179 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="contact-inner">
-    <div class="contact-left">
-      <div class="label sr">Get In Touch</div>
-      <h2 class="sr sr-d1">Let's build<br><em>something.</em></h2>
-      <p class="sr sr-d2">Whether you're planning a ground-up build or a full-scale remodel, reach out and we'll schedule a free consultation at your convenience. No pressure, no pitch.</p>
-      <div class="contact-details">
-        <div class="contact-item sr sr-d2">
-          <div class="contact-item-label">Phone</div>
-          <div class="contact-item-val">Your number here</div>
-        </div>
-        <div class="contact-item sr sr-d3">
-          <div class="contact-item-label">Email</div>
-          <div class="contact-item-val">jeff@bhrcustomhomes.com</div>
-        </div>
-        <div class="contact-item sr sr-d3">
-          <div class="contact-item-label">License</div>
-          <div class="contact-item-val">GC #[YOUR LICENSE]</div>
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="eyebrow sr">Get In Touch</div>
+        <h2 class="sr sr-d1">Let's build<br><em>something.</em></h2>
+        <p class="sr sr-d2">Whether you're planning a ground-up custom build or a full remodel, reach out and we'll schedule a free consultation at your convenience. No pressure, no pitch.</p>
+        <div class="contact-details">
+          <div class="sr sr-d2">
+            <div class="cd-label">Phone</div>
+            <div class="cd-val">Your number here</div>
+          </div>
+          <div class="sr sr-d3">
+            <div class="cd-label">Email</div>
+            <div class="cd-val">jeff@bhrcustomhomes.com</div>
+          </div>
+          <div class="sr sr-d3">
+            <div class="cd-label">License</div>
+            <div class="cd-val">GC #[YOUR LICENSE]</div>
+          </div>
         </div>
       </div>
+
+      <form class="cform sr sr-d1" id="cForm">
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="New Project Inquiry — BHR Custom Homes" />
+
+        <div class="f-row">
+          <div class="f-group">
+            <input class="f-input" type="text" name="first_name" id="fn" placeholder="." required />
+            <label class="f-label" for="fn">First Name</label>
+          </div>
+          <div class="f-group">
+            <input class="f-input" type="text" name="last_name" id="ln" placeholder="." required />
+            <label class="f-label" for="ln">Last Name</label>
+          </div>
+        </div>
+        <div class="f-row">
+          <div class="f-group">
+            <input class="f-input" type="email" name="email" id="em" placeholder="." required />
+            <label class="f-label" for="em">Email</label>
+          </div>
+          <div class="f-group">
+            <input class="f-input" type="tel" name="phone" id="ph" placeholder="." />
+            <label class="f-label" for="ph">Phone</label>
+          </div>
+        </div>
+        <div class="f-group">
+          <select class="f-select" name="project_type" id="pt" required>
+            <option value="" disabled selected></option>
+            <option>Custom Home Build</option>
+            <option>Luxury Remodel</option>
+            <option>Home Addition</option>
+            <option>Kitchen Remodel</option>
+            <option>Bathroom Remodel</option>
+            <option>Commercial Renovation</option>
+            <option>Other</option>
+          </select>
+          <label class="f-label" for="pt">Project Type</label>
+        </div>
+        <div class="f-group">
+          <textarea class="f-textarea" name="message" id="msg" placeholder="." required></textarea>
+          <label class="f-label" for="msg">Tell Us About Your Project</label>
+        </div>
+        <div class="form-submit-row">
+          <button type="submit" class="btn-send">
+            Send Message <span class="send-line"></span>
+          </button>
+        </div>
+        <div class="form-ok" id="formOk">Thank you — we'll be in touch within one business day.</div>
+      </form>
     </div>
-
-    <form class="contact-form sr sr-d1" id="contactForm">
-      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
-      <input type="hidden" name="subject" value="New Project Inquiry — BHR Custom Homes" />
-
-      <div class="field-row">
-        <div class="field">
-          <input type="text" name="first_name" id="fname" placeholder="x" required />
-          <label for="fname">First Name</label>
-        </div>
-        <div class="field">
-          <input type="text" name="last_name" id="lname" placeholder="x" required />
-          <label for="lname">Last Name</label>
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <input type="email" name="email" id="femail" placeholder="x" required />
-          <label for="femail">Email Address</label>
-        </div>
-        <div class="field">
-          <input type="tel" name="phone" id="fphone" placeholder="x" />
-          <label for="fphone">Phone Number</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <select name="project_type" id="ftype" required>
-          <option value="" disabled selected></option>
-          <option value="Custom Home Build">Custom Home Build</option>
-          <option value="Luxury Remodel">Luxury Remodel</option>
-          <option value="Home Addition">Home Addition</option>
-          <option value="Kitchen Remodel">Kitchen Remodel</option>
-          <option value="Bathroom Remodel">Bathroom Remodel</option>
-          <option value="Commercial Renovation">Commercial Renovation</option>
-          <option value="Other">Other</option>
-        </select>
-        <label for="ftype">Project Type</label>
-      </div>
-
-      <div class="field">
-        <textarea name="message" id="fmsg" placeholder="x" required></textarea>
-        <label for="fmsg">Tell Us About Your Project</label>
-      </div>
-
-      <div class="form-submit-row">
-        <button type="submit" class="btn-submit">
-          Send Message
-          <span class="submit-line"></span>
-        </button>
-      </div>
-      <div class="form-success" id="formSuccess">
-        Thank you — we'll be in touch within one business day.
-      </div>
-    </form>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
+  <div class="wrap">
+    <div class="footer-main">
       <div class="footer-logo">
         <img src="logo.png" alt="BHR Custom Homes" />
+        <p class="footer-tagline">"Built to a Higher Standard."</p>
       </div>
-      <div class="footer-links">
-        <a href="#statement">About</a>
-        <a href="#services">Services</a>
-        <a href="#projects">Projects</a>
-        <a href="#process">Process</a>
-        <a href="#contact">Contact</a>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Custom Home Builds</a></li>
+          <li><a href="#services">Luxury Remodels</a></li>
+          <li><a href="#services">Home Additions</a></li>
+          <li><a href="#services">Commercial Renovations</a></li>
+        </ul>
       </div>
-      <div class="footer-right">
-        <div class="footer-right-label">Follow</div>
-        <div class="footer-socials">
-          <a href="https://www.facebook.com/brighthomerepair" target="_blank" rel="noopener">Facebook</a>
-          <a href="#" target="_blank">Instagram</a>
-        </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Jeff</a></li>
+          <li><a href="#projects">Our Work</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/brighthomerepair" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="#" target="_blank">Instagram</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">&copy; 2025 BHR Custom Homes. Licensed General Contractor. All rights reserved.</p>
-      <p class="footer-legal">Built by Ron Lenser Digital</p>
+      <p class="footer-credit">Built by Ron Lenser Digital</p>
     </div>
   </div>
 </footer>
 
 <script>
-  /* -- CURSOR -- */
-  const dot = document.getElementById('cursorDot');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-  });
-  const raf = () => {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(raf);
-  };
-  raf();
-  document.querySelectorAll('a, button, .service-row, .project-img').forEach(el => {
-    el.addEventListener('mouseenter', () => ring.classList.add('expand'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
-  });
-
-  /* -- NAV -- */
+  /* NAV */
   const nav = document.getElementById('nav');
-  const navLinks = document.querySelectorAll('.nav-link');
   window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY > 40;
-    nav.classList.toggle('dark', scrolled);
-    navLinks.forEach(l => {
-      l.classList.toggle('light', !scrolled);
-    });
-  });
-  // trigger once on load
-  window.dispatchEvent(new Event('scroll'));
-
-  /* -- MOBILE NAV -- */
-  function openMob() { document.getElementById('mobNav').classList.add('open'); }
-  function closeMob() { document.getElementById('mobNav').classList.remove('open'); }
-
-  /* -- HERO BG ANIMATION -- */
-  window.addEventListener('load', () => {
-    document.getElementById('heroBg').classList.add('loaded');
+    nav.classList.toggle('solid', window.scrollY > 50);
   });
 
-  /* -- SCROLL REVEAL -- */
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.sr').forEach(el => obs.observe(el));
+  /* MOBILE */
+  function openMob() { document.getElementById('mob').classList.add('open'); }
+  function closeMob() { document.getElementById('mob').classList.remove('open'); }
 
-  /* -- TESTIMONIALS -- */
-  const testimonials = [
-    { quote: '"Jeff and his team completely transformed our master bathroom. The attention to detail was unlike anything I expected. We had a strict timeline and they beat it by three days."', name: 'Sarah M. — Homeowner' },
-    { quote: '"We hired BHR for a full kitchen gut and remodel. From design to final walkthrough the process was seamless. Jeff communicated every step. We\'d hire them again without hesitation."', name: 'David & Karen L. — Homeowners' },
-    { quote: '"Professional from the first call to the final nail. They added a whole second story to our house and it looks like it was always there. Couldn\'t be happier with the investment."', name: 'Mark T. — Homeowner' }
+  /* HERO PHOTO SCALE */
+  window.addEventListener('load', () => document.body.classList.add('loaded'));
+
+  /* SCROLL REVEAL */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+  document.querySelectorAll('.sr').forEach(el => io.observe(el));
+
+  /* TESTIMONIALS */
+  const ts = [
+    { q: '"Jeff and his team completely transformed our master bathroom. The attention to detail was unlike anything I expected. We had a strict timeline and they beat it by three days."', n: 'Sarah M. — Homeowner' },
+    { q: '"We hired BHR for a full kitchen gut and remodel. From design to final walkthrough the process was seamless. Jeff communicated every step. We\'d hire them again without hesitation."', n: 'David & Karen L. — Homeowners' },
+    { q: '"Professional from the first call to the final nail. They added a whole second story to our house and it looks like it was always there. Couldn\'t be happier with the investment."', n: 'Mark T. — Homeowner' }
   ];
   let ti = 0;
-  const tQuote = document.getElementById('tQuote');
-  const tName = document.getElementById('tName');
+  const tQ = document.getElementById('tQ');
+  const tN = document.getElementById('tN');
   function setT(i) {
-    tQuote.classList.add('fade');
-    setTimeout(() => {
-      tQuote.textContent = testimonials[i].quote;
-      tName.textContent = testimonials[i].name;
-      tQuote.classList.remove('fade');
-    }, 400);
+    tQ.classList.add('fade');
+    setTimeout(() => { tQ.textContent = ts[i].q; tN.textContent = ts[i].n; tQ.classList.remove('fade'); }, 400);
   }
-  function nextT() { ti = (ti + 1) % testimonials.length; setT(ti); }
-  function prevT() { ti = (ti - 1 + testimonials.length) % testimonials.length; setT(ti); }
+  function nextT() { ti = (ti + 1) % ts.length; setT(ti); }
+  function prevT() { ti = (ti - 1 + ts.length) % ts.length; setT(ti); }
 
-  /* -- CONTACT FORM -- */
-  const form = document.getElementById('contactForm');
-  form.addEventListener('submit', async e => {
+  /* FORM */
+  document.getElementById('cForm').addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = form.querySelector('.btn-submit');
-    const origText = btn.childNodes[0].textContent;
-    btn.childNodes[0].textContent = 'Sending...';
+    const btn = e.target.querySelector('.btn-send');
+    btn.textContent = 'Sending...';
     btn.disabled = true;
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+        body: JSON.stringify(Object.fromEntries(new FormData(e.target)))
       });
       const data = await res.json();
       if (data.success) {
-        form.reset();
-        document.getElementById('formSuccess').style.display = 'block';
+        e.target.reset();
+        document.getElementById('formOk').style.display = 'block';
         btn.style.display = 'none';
       } else {
-        btn.childNodes[0].textContent = origText;
+        btn.textContent = 'Send Message';
         btn.disabled = false;
-        alert('Something went wrong. Please try again.');
       }
-    } catch {
-      btn.childNodes[0].textContent = origText;
-      btn.disabled = false;
-    }
+    } catch { btn.textContent = 'Send Message'; btn.disabled = false; }
   });
 </script>
 
