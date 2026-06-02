@@ -147,10 +147,10 @@ a{color:inherit;text-decoration:none}
 .g-filter:hover{color:#fff;border-color:rgba(191,150,69,.5)}
 .g-filter.active{color:var(--ink);background:var(--gold);border-color:var(--gold)}
 .g-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:300px;gap:4px
+  display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:300px;gap:6px
 }
 .g-item{position:relative;overflow:hidden;margin:0;cursor:pointer;animation:gFade .5s ease both}
-.g-item.tall{grid-row:span 2}
+.g-item.tall{grid-row:auto}
 .g-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.25,.46,.45,.94)}
 .g-item:hover img{transform:scale(1.06)}
 .g-item figcaption{
@@ -364,7 +364,7 @@ footer{background:#0A0A09;padding:64px 72px 32px;border-top:1px solid rgba(191,1
   .statsbar{grid-template-columns:1fr;gap:0}
   .sbar-item{border-right:none;border-bottom:1px solid rgba(0,0,0,.1);padding:20px 24px}
   .gallery-wrap{padding:32px 24px 0}.g-grid{grid-template-columns:1fr 1fr;grid-auto-rows:200px;gap:3px}
-  .g-item.tall{grid-row:span 2}
+  .g-item.tall{grid-row:auto}
   
   .g-item figcaption{opacity:1;background:linear-gradient(to top,rgba(15,15,14,.8) 0%,transparent 60%)}
   
@@ -467,8 +467,8 @@ footer{background:#0A0A09;padding:64px 72px 32px;border-top:1px solid rgba(191,1
 <!-- PORTFOLIO GALLERY -->
 <div class="gallery-wrap">
   <div class="g-filters" id="gFilters">
-    <button class="g-filter active" data-filter="all">All Work</button>
-    <button class="g-filter" data-filter="kitchen">Kitchens</button>
+    <button class="g-filter" data-filter="all">All Work</button>
+    <button class="g-filter active" data-filter="kitchen">Kitchens</button>
     <button class="g-filter" data-filter="bathroom">Bathrooms</button>
     <button class="g-filter" data-filter="remodel">Remodels</button>
     <button class="g-filter" data-filter="progress">In Progress</button>
@@ -494,7 +494,7 @@ footer{background:#0A0A09;padding:64px 72px 32px;border-top:1px solid rgba(191,1
         <img src="portfolio/kitchen-05.jpg" alt="Kitchen Remodel" loading="lazy">
         <figcaption><h3>Kitchen Remodel</h3><span>Kitchens</span></figcaption>
       </figure>
-      <figure class="g-item tall" data-cat="kitchen">
+      <figure class="g-item" data-cat="kitchen">
         <img src="portfolio/kitchen-06.jpg" alt="Kitchen Remodel" loading="lazy">
         <figcaption><h3>Kitchen Remodel</h3><span>Kitchens</span></figcaption>
       </figure>
@@ -510,51 +510,51 @@ footer{background:#0A0A09;padding:64px 72px 32px;border-top:1px solid rgba(191,1
         <img src="portfolio/kitchen-09.jpg" alt="Kitchen Remodel" loading="lazy">
         <figcaption><h3>Kitchen Remodel</h3><span>Kitchens</span></figcaption>
       </figure>
-      <figure class="g-item tall" data-cat="kitchen">
+      <figure class="g-item" data-cat="kitchen">
         <img src="portfolio/kitchen-10.jpg" alt="Kitchen Remodel" loading="lazy">
         <figcaption><h3>Kitchen Remodel</h3><span>Kitchens</span></figcaption>
       </figure>
-      <figure class="g-item tall" data-cat="bathroom">
+      <figure class="g-item hide" data-cat="bathroom">
         <img src="portfolio/bathroom-01.jpg" alt="Bathroom Remodel" loading="lazy">
         <figcaption><h3>Bathroom Remodel</h3><span>Bathrooms</span></figcaption>
       </figure>
-      <figure class="g-item tall" data-cat="bathroom">
+      <figure class="g-item hide" data-cat="bathroom">
         <img src="portfolio/bathroom-02.jpg" alt="Bathroom Remodel" loading="lazy">
         <figcaption><h3>Bathroom Remodel</h3><span>Bathrooms</span></figcaption>
       </figure>
-      <figure class="g-item" data-cat="bathroom">
+      <figure class="g-item hide" data-cat="bathroom">
         <img src="portfolio/bathroom-03.jpg" alt="Bathroom Remodel" loading="lazy">
         <figcaption><h3>Bathroom Remodel</h3><span>Bathrooms</span></figcaption>
       </figure>
-      <figure class="g-item" data-cat="remodel">
+      <figure class="g-item hide" data-cat="remodel">
         <img src="portfolio/remodel-01.jpg" alt="Home Remodel" loading="lazy">
         <figcaption><h3>Home Remodel</h3><span>Remodels</span></figcaption>
       </figure>
-      <figure class="g-item tall" data-cat="remodel">
+      <figure class="g-item hide" data-cat="remodel">
         <img src="portfolio/remodel-02.jpg" alt="Home Remodel" loading="lazy">
         <figcaption><h3>Home Remodel</h3><span>Remodels</span></figcaption>
       </figure>
-      <figure class="g-item" data-cat="remodel">
+      <figure class="g-item hide" data-cat="remodel">
         <img src="portfolio/remodel-03.jpg" alt="Home Remodel" loading="lazy">
         <figcaption><h3>Home Remodel</h3><span>Remodels</span></figcaption>
       </figure>
-      <figure class="g-item tall" data-cat="progress">
+      <figure class="g-item hide" data-cat="progress">
         <img src="portfolio/progress-01.jpg" alt="Build in Progress" loading="lazy">
         <figcaption><h3>Build in Progress</h3><span>In Progress</span></figcaption>
       </figure>
-      <figure class="g-item tall" data-cat="progress">
+      <figure class="g-item hide" data-cat="progress">
         <img src="portfolio/progress-02.jpg" alt="Build in Progress" loading="lazy">
         <figcaption><h3>Build in Progress</h3><span>In Progress</span></figcaption>
       </figure>
-      <figure class="g-item" data-cat="progress">
+      <figure class="g-item hide" data-cat="progress">
         <img src="portfolio/progress-03.jpg" alt="Build in Progress" loading="lazy">
         <figcaption><h3>Build in Progress</h3><span>In Progress</span></figcaption>
       </figure>
-      <figure class="g-item" data-cat="progress">
+      <figure class="g-item hide" data-cat="progress">
         <img src="portfolio/progress-04.jpg" alt="Build in Progress" loading="lazy">
         <figcaption><h3>Build in Progress</h3><span>In Progress</span></figcaption>
       </figure>
-      <figure class="g-item" data-cat="progress">
+      <figure class="g-item hide" data-cat="progress">
         <img src="portfolio/progress-05.jpg" alt="Build in Progress" loading="lazy">
         <figcaption><h3>Build in Progress</h3><span>In Progress</span></figcaption>
       </figure>
