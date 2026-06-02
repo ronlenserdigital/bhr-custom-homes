@@ -24,6 +24,9 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--sand);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* SHINY METALLIC GOLD (matches logo) */
+.shiny-gold{background:linear-gradient(96deg,#8A6520 0%,#BF9645 14%,#E8D08C 31%,#F4E7B4 40%,#C9A431 53%,#9C7C3C 67%,#D9B86A 85%,#8A6520 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 
@@ -48,10 +51,10 @@ a{color:inherit;text-decoration:none}
 .nav-right-links{display:flex;gap:28px}
 .nav-cta{
   font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  color:var(--ink);background:var(--gold);padding:10px 24px;
-  transition:background .25s;white-space:nowrap
+  color:#241b07;background:linear-gradient(135deg,#9A7A30 0%,#C9A340 22%,#EFDD9C 44%,#F6EBC2 50%,#C9A340 64%,#9A7A30 100%);padding:10px 24px;
+  transition:filter .3s;white-space:nowrap;box-shadow:0 2px 10px rgba(191,150,69,.22)
 }
-.nav-cta:hover{background:var(--gold2)}
+.nav-cta:hover{filter:brightness(1.08)}
 .ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px}
 .ham span{width:22px;height:1.5px;background:#fff;display:block;transition:.3s}
 
@@ -101,10 +104,10 @@ a{color:inherit;text-decoration:none}
 .hero-actions{display:flex;gap:14px;flex-shrink:0}
 .btn-fill{
   font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
-  color:var(--ink);background:var(--gold);padding:15px 34px;
-  transition:background .25s,transform .25s;display:inline-block
+  color:#241b07;background:linear-gradient(135deg,#9A7A30 0%,#C9A340 22%,#EFDD9C 44%,#F6EBC2 50%,#C9A340 64%,#9A7A30 100%);padding:15px 34px;
+  transition:filter .3s,transform .25s;display:inline-block;box-shadow:0 2px 14px rgba(191,150,69,.25)
 }
-.btn-fill:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-fill:hover{filter:brightness(1.08);transform:translateY(-2px)}
 .btn-ghost{
   font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
   color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.18);padding:15px 34px;
@@ -295,12 +298,12 @@ a{color:inherit;text-decoration:none}
 .cf textarea{height:90px;resize:none}
 .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .cf button{
-  background:var(--gold);color:var(--ink);font-family:var(--sans);
+  background:linear-gradient(135deg,#9A7A30 0%,#C9A340 22%,#EFDD9C 44%,#F6EBC2 50%,#C9A340 64%,#9A7A30 100%);color:#241b07;font-family:var(--sans);
   font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
   padding:17px;border:none;cursor:pointer;width:100%;margin-top:8px;
-  transition:background .25s
+  transition:filter .3s;box-shadow:0 2px 14px rgba(191,150,69,.25)
 }
-.cf button:hover{background:var(--gold2)}
+.cf button:hover{filter:brightness(1.08)}
 .f-ok{display:none;padding:36px;border:1px solid rgba(191,150,69,.25);text-align:center}
 .f-ok p{font-family:var(--serif);font-size:19px;font-style:italic;color:var(--gold)}
 
@@ -433,7 +436,7 @@ footer{background:#0A0A09;padding:64px 72px 32px;border-top:1px solid rgba(191,1
     <h1>
       <span>We Don't</span>
       <span>Just Build</span>
-      <em>Homes.</em>
+      <em class="shiny-gold">Homes.</em>
     </h1>
     <div class="hero-foot">
       <p class="hero-sub">Custom homes, luxury remodels, and additions built by craftsmen who have been inside enough walls to know exactly what good looks like and refuse to build anything less.</p>
@@ -598,7 +601,7 @@ footer{background:#0A0A09;padding:64px 72px 32px;border-top:1px solid rgba(191,1
   </div>
   <div class="about-content">
     <div class="a-label">The Person Behind Every Build</div>
-    <h2>Jeff <em>Wyner</em></h2>
+    <h2>Jeff <em class="shiny-gold">Wyner</em></h2>
     <div class="about-role">Owner and General Contractor</div>
     <p>Jeff did not start behind a desk. He started behind a tool belt.</p>
     <p>Twenty-plus years ago he began with small repair work, the kind where you are inside someone's walls, under their floors, learning every system of a home from the inside out. He built a reputation for showing up, doing it right, and never leaving a job unfinished.</p>
